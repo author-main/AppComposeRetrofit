@@ -28,16 +28,16 @@ class WeatherApi {
             units: String,
             @Query("appid")
             appid: String): Call<WeatherForecast>
+    }
 
-        companion object{
-            private const val key = "dc2e12a90c095c2ef1f98c5ef4b613e5"
-            private const val url = "http://api.openweathermap.org/data/2.5/"
-            private val retrofit: Retrofit? = Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-            private var apiInterface: ApiInterface? = retrofit?.create(ApiInterface::class.java)
-            fun getRetrofitApi() = apiInterface
-        }
+    companion object{
+        const val key = "dc2e12a90c095c2ef1f98c5ef4b613e5"
+        private const val url = "http://api.openweathermap.org/data/2.5/"
+        private val retrofit: Retrofit? = Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        private var apiInterface: ApiInterface? = retrofit?.create(ApiInterface::class.java)
+        fun getRetrofitApi() = apiInterface
     }
 }

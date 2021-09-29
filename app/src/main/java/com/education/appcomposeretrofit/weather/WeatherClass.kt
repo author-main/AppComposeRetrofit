@@ -126,8 +126,11 @@ class WeatherDay {
 
 }
 
-class WeatherForecast{
+class WeatherForecast(items: List<WeatherDay>){
     private var items: List<WeatherDay>? = null
+    init{
+        this.items = items
+    }
     fun getItems() =
         items
 }
