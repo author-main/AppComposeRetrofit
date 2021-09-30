@@ -59,7 +59,7 @@ http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=dc2e12a90c095c2
 
  */
 
-class WeatherDay {
+class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDescription>) {
     private val sourceIconUrl = "http://openweathermap.org/img/w/"
     class WeatherTemp {
         // свойства объекта "main"
@@ -89,10 +89,10 @@ class WeatherDay {
     @SerializedName("dt")
     private var timestamp: Long = 0
 
-    /* init{
-         this.temp = temp
-         this.description = description
-     }*/
+    /*init{
+        temp = weatherTemp
+        description = weatherDescription
+    }*/
 
     fun getDate(): Calendar {
         val date = Calendar.getInstance()
@@ -126,11 +126,12 @@ class WeatherDay {
 
 }
 
-class WeatherForecast(items: List<WeatherDay>){
+class WeatherForecast{//(items: List<WeatherDay>){
+    @SerializedName("list")
     private var items: List<WeatherDay>? = null
-    init{
+  /*  init{
         this.items = items
-    }
+    }*/
     fun getItems() =
         items
 }
