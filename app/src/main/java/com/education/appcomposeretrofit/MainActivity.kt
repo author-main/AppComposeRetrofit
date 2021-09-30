@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
                 response?.let{
                     if (it.isSuccessful){
                         val weatherForecast = it.body()
-                        Log.d("retrofit", "${weatherForecast?.getItems()?.size}")
+                        log("${weatherForecast?.getItems()?.size}")
                     }
                 }
             }
