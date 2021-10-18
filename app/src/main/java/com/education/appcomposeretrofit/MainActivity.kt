@@ -43,6 +43,7 @@ class MainActivity : ComponentActivity() {
                 response?.let{
                     if (it.isSuccessful){
                         val weatherToday = it.body()
+                        log("${weatherToday?.getDate()}")
                     }
                 }
             }

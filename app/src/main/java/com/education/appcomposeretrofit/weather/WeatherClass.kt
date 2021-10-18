@@ -1,6 +1,8 @@
 package com.education.appcomposeretrofit.weather
 
 import com.google.gson.annotations.SerializedName
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 //key weather dc2e12a90c095c2ef1f98c5ef4b613e5
@@ -64,8 +66,8 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     class WeatherTemp {
         // свойства объекта "main"
         var temp: Double? = null
-        var tempMin: Double? = null
-        var tempMax: Double? = null
+        var temp_min: Double? = null
+        var temp_max: Double? = null
     }
 
     class WeatherDescription{
@@ -94,10 +96,16 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         description = weatherDescription
     }*/
 
-    fun getDate(): Calendar {
+   /* fun getCalendar(): Calendar {
         val date = Calendar.getInstance()
         date.timeInMillis = timestamp * 1000
         return date
+    }*/
+
+    fun getDate(): String {
+        val pattern = "dd MMM yyyy"
+        val dateFormat: DateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+        return dateFormat.format(timestamp * 1000)
     }
 
     fun getTemp() =
@@ -110,10 +118,10 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         temp?.temp?.toInt()?.toString()
 
     fun getTempMin() =
-        temp?.tempMin.toString()
+        temp?.temp_min.toString()
 
     fun getTempMax() =
-        temp?.tempMax.toString()
+        temp?.temp_max.toString()
 
     fun getCity() =
         city
