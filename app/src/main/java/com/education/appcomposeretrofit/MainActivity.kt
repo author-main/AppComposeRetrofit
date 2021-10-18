@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
                 val temp: WeatherDay? by remember {
                     mutableStateOf(null)
                 }
+                Today(temp)
                 Surface(color = MaterialTheme.colors.background) {
                     //Greeting("Android")
                 }
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
                 response?.let{
                     if (it.isSuccessful){
                         val weatherToday = it.body()
-                        Today(it.body())
+                        //Today(it.body())
                         //log("${weatherToday?.getDate()}")
                     }
                 }
@@ -84,7 +85,7 @@ fun Greeting(name: String) {
 }
 
 @Composable
-fun Today(temp: WeatherDay){
+fun Today(temp: WeatherDay?){
 
 }
 
