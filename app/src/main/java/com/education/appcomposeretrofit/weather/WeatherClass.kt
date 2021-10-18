@@ -114,6 +114,10 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getTemp() =
         temp?.temp.toString()
 
+    fun setTemp(value: Double) {
+        temp?.temp = value
+    }
+
     fun getTempInteger() =
         temp?.temp?.toInt()?.toString()
 

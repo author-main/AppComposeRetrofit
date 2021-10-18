@@ -18,16 +18,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
+    val todayTemp = mutableStateOf(WeatherDay())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWeather()
         setContent {
             AppComposeRetrofitTheme {
                 // A surface container using the 'background' color from the theme
-                val temp: WeatherDay? by remember {
-                    mutableStateOf(null)
-                }
-                Today(temp)
+                Today(todayTemp.value)
                 Surface(color = MaterialTheme.colors.background) {
                     //Greeting("Android")
                 }
@@ -46,9 +44,7 @@ class MainActivity : ComponentActivity() {
             override fun onResponse(call: Call<WeatherDay>?, response: Response<WeatherDay>?) {
                 response?.let{
                     if (it.isSuccessful){
-                        val weatherToday = it.body()
-                        //Today(it.body())
-                        //log("${weatherToday?.getDate()}")
+                        todayTemp.value = it.body()
                     }
                 }
             }
@@ -64,7 +60,6 @@ class MainActivity : ComponentActivity() {
                 response?.let{
                     if (it.isSuccessful){
                         val weatherForecast = it.body()
-
                         log("${weatherForecast?.getItems()?.size}")
                     }
                 }
@@ -86,7 +81,7 @@ fun Greeting(name: String) {
 
 @Composable
 fun Today(temp: WeatherDay?){
-
+    Text(text = "temperature ${temp?.getTemp()}")
 }
 
 @Preview(showBackground = true)
