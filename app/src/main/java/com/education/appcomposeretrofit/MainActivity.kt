@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherApi
@@ -24,8 +24,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppComposeRetrofitTheme {
                 // A surface container using the 'background' color from the theme
+                val temp: WeatherDay? by remember {
+                    mutableStateOf(null)
+                }
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    //Greeting("Android")
                 }
             }
         }
