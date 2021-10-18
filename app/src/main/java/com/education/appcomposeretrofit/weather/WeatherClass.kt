@@ -108,6 +108,9 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         return dateFormat.format(timestamp * 1000)
     }
 
+    /*fun getTemperature() =
+        temp*/
+
     fun getTemp() =
         temp?.temp.toString()
 

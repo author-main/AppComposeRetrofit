@@ -43,7 +43,8 @@ class MainActivity : ComponentActivity() {
                 response?.let{
                     if (it.isSuccessful){
                         val weatherToday = it.body()
-                        log("${weatherToday?.getDate()}")
+                        Today(it.body())
+                        //log("${weatherToday?.getDate()}")
                     }
                 }
             }
@@ -59,6 +60,7 @@ class MainActivity : ComponentActivity() {
                 response?.let{
                     if (it.isSuccessful){
                         val weatherForecast = it.body()
+
                         log("${weatherForecast?.getItems()?.size}")
                     }
                 }
@@ -76,6 +78,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!")
+}
+
+@Composable
+fun Today(temp: WeatherDay){
+
 }
 
 @Preview(showBackground = true)
