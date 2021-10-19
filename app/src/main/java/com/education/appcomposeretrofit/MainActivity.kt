@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppComposeRetrofitTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Today(viewModel)
+                    Screen(viewModel)
                 }
             }
         }
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Today(viewModel: WeatherViewModel){
+fun Screen(viewModel: WeatherViewModel){
     val dataToday: WeatherDay by viewModel
         .forecastToday
         .observeAsState(WeatherDay())
@@ -50,7 +50,25 @@ fun Today(viewModel: WeatherViewModel){
         .forecastWeek
         .observeAsState(WeatherForecast())
 
-    Text(text = "temperatureToday ${dataToday.getTemp()}\ntemperatureWeek ${dataWeek.getItems()?.get(0)?.getTemp()}")
+    Today(dataToday)
+    DaysOfWeek(dataWeek.getItems())
+
+        //Text(text = "temperatureToday ${dataToday.getTemp()}\ntemperatureWeek ${dataWeek.getItems()?.get(0)?.getTemp()}")
+}
+
+@Composable
+fun Today(data: WeatherDay){
+    Text(text = "temperatureToday ${data.getTemp()}")
+}
+
+@Composable
+fun DaysOfWeek(data: List<WeatherDay>?){
+    Text(text = "temperatureWeek ${data?.get(0)?.getTemp()}")
+}
+
+@Composable
+fun RowOfDay(data: WeatherDay){
+
 }
 
 /*@Preview(showBackground = true)
