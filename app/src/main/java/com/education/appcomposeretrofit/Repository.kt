@@ -28,7 +28,7 @@ class Repository {
         forecastWeek
 
 
-    fun getForecastToday(lat: Double, lon: Double){
+    private fun getForecastToday(lat: Double, lon: Double){
         val callToday: Call<WeatherDay>? = apiInterface?.getToday(lat, lon, "metric", WeatherApi.key)
         callToday?.enqueue(object: Callback<WeatherDay> {
             override fun onResponse(call: Call<WeatherDay>?, response: Response<WeatherDay>?) {
@@ -44,7 +44,7 @@ class Repository {
 
     }
 
-    fun getForecastWeek(lat: Double, lon: Double){
+    private fun getForecastWeek(lat: Double, lon: Double){
         val callForecast: Call<WeatherForecast>? = apiInterface?.getForecast(lat, lon, "metric", WeatherApi.key)
         callForecast?.enqueue(object: Callback<WeatherForecast>{
             override fun onResponse(call: Call<WeatherForecast>?, response: Response<WeatherForecast>?) {
