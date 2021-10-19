@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherApi
 import com.education.appcomposeretrofit.weather.WeatherDay
@@ -18,14 +20,25 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var viewModel: WeatherViewModel
+    /*private val viewModel: WeatherViewModel by viewModels(factoryProducer = {
+        FactoryViewModel(
+            this,
+            (application as JetNotesApplication).dependencyInjector.repository
+        )
+    })  */
+
     val todayTemp = mutableStateOf(WeatherDay())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+      /*  viewModel =
+            ViewModelProvider(this).get(WeatherViewModel::class.java)*/
         getWeather()
         setContent {
             AppComposeRetrofitTheme {
                 // A surface container using the 'background' color from the theme
-                Today(todayTemp.value)
+             //   Today(todayTemp.value)
                 Surface(color = MaterialTheme.colors.background) {
                     //Greeting("Android")
                 }
@@ -45,6 +58,7 @@ class MainActivity : ComponentActivity() {
                 response?.let{
                     if (it.isSuccessful){
                         todayTemp.value = it.body()
+                        log("ok")
                     }
                 }
             }
@@ -80,8 +94,8 @@ fun Greeting(name: String) {
 }
 
 @Composable
-fun Today(temp: WeatherDay?){
-    Text(text = "temperature ${temp?.getTemp()}")
+fun Today(viewModel: WeatherViewModel){
+  //  Text(text = "temperature ${temp?.getTemp()}")
 }
 
 @Preview(showBackground = true)
