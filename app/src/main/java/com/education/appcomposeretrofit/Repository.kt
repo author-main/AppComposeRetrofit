@@ -13,9 +13,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 class Repository {
-    enum class Result {
+  /*  enum class Result {
         COMPLETE, ERROR
-    }
+    }*/
     private val apiInterface: WeatherApi.ApiInterface? = WeatherApi.getRetrofitApi()
     private val forecastToday: MutableLiveData<WeatherDay> by lazy {
         MutableLiveData<WeatherDay>()
@@ -23,8 +23,8 @@ class Repository {
     private val forecastWeek: MutableLiveData<WeatherForecast> by lazy {
         MutableLiveData<WeatherForecast>()
     }
-    var onGetForecastToday: ((result: Result) -> Unit)? = null
-    var onGetForecastWeek: ((result: Result) -> Unit)? = null
+    /*var onGetForecastToday: ((result: Result) -> Unit)? = null
+    var onGetForecastWeek: ((result: Result) -> Unit)? = null*/
 
     fun getForecastToday(lat: Double, lon: Double){
         val callToday: Call<WeatherDay>? = apiInterface?.getToday(lat, lon, "metric", WeatherApi.key)
@@ -32,13 +32,13 @@ class Repository {
             override fun onResponse(call: Call<WeatherDay>?, response: Response<WeatherDay>?) {
                 response?.let{
                     if (it.isSuccessful)
-                        onGetForecastToday?.invoke(Result.COMPLETE)
+                      //  onGetForecastToday?.invoke(Result.COMPLETE)
 
                 }
             }
 
             override fun onFailure(call: Call<WeatherDay>?, t: Throwable?) {
-                onGetForecastToday?.invoke(Result.ERROR)
+              //  onGetForecastToday?.invoke(Result.ERROR)
             }
         })
 
@@ -50,11 +50,11 @@ class Repository {
             override fun onResponse(call: Call<WeatherForecast>?, response: Response<WeatherForecast>?) {
                 response?.let{
                     if (it.isSuccessful)
-                        onGetForecastWeek?.invoke(Result.COMPLETE)
+                      //  onGetForecastWeek?.invoke(Result.COMPLETE)
                 }
             }
             override fun onFailure(call: Call<WeatherForecast>?, t: Throwable?) {
-                onGetForecastWeek?.invoke(Result.ERROR)
+              // onGetForecastWeek?.invoke(Result.ERROR)
             }
         })
     }
