@@ -14,8 +14,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 class Repository {
-    val lat = 48.192638
-    val lon = 41.283229
+    private val lat = 48.192638
+    private val lon = 41.283229
     private val apiInterface: WeatherApi.ApiInterface? = WeatherApi.getRetrofitApi()
     private val forecastToday: MutableLiveData<WeatherDay> by lazy {
         MutableLiveData<WeatherDay>()
