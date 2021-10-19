@@ -139,6 +139,9 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getIconUrl() =
         sourceIconUrl + description?.get(0)?.icon + ".png"
 
+    /*fun forecastNotUpdated() =
+        (temp == null) ?: false*/
+
 }
 
 class WeatherForecast{//(items: List<WeatherDay>){
@@ -149,4 +152,7 @@ class WeatherForecast{//(items: List<WeatherDay>){
     }*/
     fun getItems() =
         items
+
+    /*fun forecastNotUpdated() =
+        (items == null) ?: false*/
 }

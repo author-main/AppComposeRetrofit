@@ -1,5 +1,6 @@
 package com.education.appcomposeretrofit
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.education.appcomposeretrofit.weather.WeatherApi
 import com.education.appcomposeretrofit.weather.WeatherDay
@@ -13,9 +14,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 class Repository {
-  /*  enum class Result {
-        COMPLETE, ERROR
-    }*/
     private val apiInterface: WeatherApi.ApiInterface? = WeatherApi.getRetrofitApi()
     private val forecastToday: MutableLiveData<WeatherDay> by lazy {
         MutableLiveData<WeatherDay>()
@@ -23,8 +21,12 @@ class Repository {
     private val forecastWeek: MutableLiveData<WeatherForecast> by lazy {
         MutableLiveData<WeatherForecast>()
     }
-    /*var onGetForecastToday: ((result: Result) -> Unit)? = null
-    var onGetForecastWeek: ((result: Result) -> Unit)? = null*/
+    fun getDataToday(): MutableLiveData<WeatherDay> =
+        forecastToday
+
+    fun getDataWeek(): MutableLiveData<WeatherForecast> =
+        forecastWeek
+
 
     fun getForecastToday(lat: Double, lon: Double){
         val callToday: Call<WeatherDay>? = apiInterface?.getToday(lat, lon, "metric", WeatherApi.key)
@@ -32,13 +34,11 @@ class Repository {
             override fun onResponse(call: Call<WeatherDay>?, response: Response<WeatherDay>?) {
                 response?.let{
                     if (it.isSuccessful)
-                      //  onGetForecastToday?.invoke(Result.COMPLETE)
-
+                        forecastToday.postValue(it.body())
                 }
             }
 
             override fun onFailure(call: Call<WeatherDay>?, t: Throwable?) {
-              //  onGetForecastToday?.invoke(Result.ERROR)
             }
         })
 
@@ -50,13 +50,19 @@ class Repository {
             override fun onResponse(call: Call<WeatherForecast>?, response: Response<WeatherForecast>?) {
                 response?.let{
                     if (it.isSuccessful)
-                      //  onGetForecastWeek?.invoke(Result.COMPLETE)
+                        forecastWeek.postValue(it.body())
                 }
             }
             override fun onFailure(call: Call<WeatherForecast>?, t: Throwable?) {
-              // onGetForecastWeek?.invoke(Result.ERROR)
             }
         })
+    }
+
+    fun updateForecastData(){
+        val lat = 48.192638
+        val lon = 41.283229
+        getForecastToday(lat, lon)
+        getForecastWeek(lat, lon)
     }
 
 }
