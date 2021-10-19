@@ -50,8 +50,6 @@ fun Today(viewModel: WeatherViewModel){
         .forecastWeek
         .observeAsState(WeatherForecast())
 
-
-
     Text(text = "temperatureToday ${dataToday.getTemp()}\ntemperatureWeek ${dataWeek.getItems()?.get(0)?.getTemp()}")
 }
 
