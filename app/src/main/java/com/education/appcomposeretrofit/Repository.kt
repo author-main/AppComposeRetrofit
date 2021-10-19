@@ -14,6 +14,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 class Repository {
+    val lat = 48.192638
+    val lon = 41.283229
     private val apiInterface: WeatherApi.ApiInterface? = WeatherApi.getRetrofitApi()
     private val forecastToday: MutableLiveData<WeatherDay> by lazy {
         MutableLiveData<WeatherDay>()
@@ -28,7 +30,7 @@ class Repository {
         forecastWeek
 
 
-    private fun getForecastToday(lat: Double, lon: Double){
+    private fun getForecastToday(){
         val callToday: Call<WeatherDay>? = apiInterface?.getToday(lat, lon, "metric", WeatherApi.key)
         callToday?.enqueue(object: Callback<WeatherDay> {
             override fun onResponse(call: Call<WeatherDay>?, response: Response<WeatherDay>?) {
@@ -44,7 +46,7 @@ class Repository {
 
     }
 
-    private fun getForecastWeek(lat: Double, lon: Double){
+    private fun getForecastWeek(){
         val callForecast: Call<WeatherForecast>? = apiInterface?.getForecast(lat, lon, "metric", WeatherApi.key)
         callForecast?.enqueue(object: Callback<WeatherForecast>{
             override fun onResponse(call: Call<WeatherForecast>?, response: Response<WeatherForecast>?) {
@@ -59,10 +61,8 @@ class Repository {
     }
 
     fun updateForecastData(){
-        val lat = 48.192638
-        val lon = 41.283229
-        getForecastToday(lat, lon)
-        getForecastWeek(lat, lon)
+        getForecastToday()
+        getForecastWeek()
     }
 
 }
