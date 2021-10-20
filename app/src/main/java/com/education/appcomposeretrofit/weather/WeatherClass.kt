@@ -68,10 +68,12 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         var temp: Double? = null
         var temp_min: Double? = null
         var temp_max: Double? = null
+        var feels_like: Double? = null
     }
 
     class WeatherDescription{
         // свойство объекта "weather"
+        var description: String? = null
         var icon: String? = null
     }
 
@@ -114,6 +116,9 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getTemp() =
         temp?.temp.toString()
 
+    fun getFeelLike() =
+        getTempDegree(temp?.feels_like)
+
     fun setTemp(value: Double) {
         temp?.temp = value
     }
@@ -121,13 +126,18 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getTempInteger() =
         temp?.temp?.toInt()?.toString()
 
-    fun getTempWithDegree(): String {
-        val wc = if (temp?.temp?.compareTo(0) ?: 0 > 0)
-                    "+"
-                 else
-                     ""
-        return wc + temp?.temp?.toInt()?.toString() + "\u00b0"
+
+    private fun getTempDegree(value: Double?): String{
+        val wc = if (value?.compareTo(0) ?: 0 > 0)
+            "+"
+        else
+            ""
+        return wc + value?.toInt() + "\u00b0"
     }
+
+
+    fun getTempWithDegree() =
+        getTempDegree(temp?.temp)
 
     fun getTempMin() =
         temp?.temp_min.toString()
@@ -140,6 +150,13 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
 
     fun getIcon() =
         description?.get(0)?.icon
+
+    fun getDescription(): String  {
+        val note = description?.get(0)?.description ?: ""
+        return if (note.isNotEmpty())
+            note.replaceFirstChar {note[0].uppercase()}
+        else ""
+    }
 
     fun getIconUrl() =
         sourceIconUrl + description?.get(0)?.icon + ".png"

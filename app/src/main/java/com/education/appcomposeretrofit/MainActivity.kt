@@ -83,10 +83,15 @@ fun Today(data: WeatherDay){
             text = data.getTempWithDegree()
         )
 
+        Text(modifier = Modifier.wrapContentSize(),
+            color = Color.White,
+            text = "${data.getDescription()}"
+        )
+
         Text(modifier = Modifier.wrapContentSize()
             .padding(bottom = 16.dp),
-            color = Color.White,
-            text = data.getDate()
+            color = Color(255,255,255,200),
+            text = "Ощущается как: ${data.getFeelLike()}"
         )
 
     }
