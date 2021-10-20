@@ -85,7 +85,7 @@ fun Today(data: WeatherDay){
 
         Text(modifier = Modifier.wrapContentSize(),
             color = Color.White,
-            text = "${data.getDescription()}"
+            text = data.getDescription()
         )
 
         Text(modifier = Modifier.wrapContentSize()
