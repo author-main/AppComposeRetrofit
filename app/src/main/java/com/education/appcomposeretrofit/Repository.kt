@@ -60,7 +60,7 @@ class Repository {
         })
     }
 
-    fun updateForecastData(){
+    fun updateForecast(){
         getForecastToday()
         getForecastWeek()
     }
