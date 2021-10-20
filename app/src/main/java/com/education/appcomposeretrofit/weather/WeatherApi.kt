@@ -17,7 +17,9 @@ class WeatherApi {
             @Query("units")
             units: String,
             @Query("appid")
-            appid: String): Call<WeatherDay>
+            appid: String,
+            @Query("lang")
+            lang: String = "ru"): Call<WeatherDay>
         @GET("forecast")
         fun getForecast(
             @Query("lat")
@@ -27,7 +29,9 @@ class WeatherApi {
             @Query("units")
             units: String,
             @Query("appid")
-            appid: String): Call<WeatherForecast>
+            appid: String,
+            @Query("lang")
+            lang: String = "ru"): Call<WeatherForecast>
     }
 
     companion object{

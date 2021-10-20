@@ -5,12 +5,22 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherApi
@@ -58,12 +68,34 @@ fun Screen(viewModel: WeatherViewModel){
 
 @Composable
 fun Today(data: WeatherDay){
-    Text(text = "temperatureToday ${data.getTemp()}")
+    Column(modifier = Modifier.fillMaxWidth()
+        .padding(0.dp)
+        .background(MaterialTheme.colors.primary),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(modifier = Modifier.wrapContentSize()
+            .padding(top = 16.dp),
+            color = Color.White,
+            text = "${data.getCity()}"
+        )
+        Text(modifier = Modifier.wrapContentSize(),
+            color = Color.White,
+            style = MaterialTheme.typography.h1,
+            text = data.getTempWithDegree()
+        )
+
+        Text(modifier = Modifier.wrapContentSize()
+            .padding(bottom = 16.dp),
+            color = Color.White,
+            text = data.getDate()
+        )
+
+    }
+
 }
 
 @Composable
 fun DaysOfWeek(data: List<WeatherDay>?){
-    Text(text = "temperatureWeek ${data?.get(0)?.getTemp()}")
+    //Text(text = "temperatureWeek ${data?.get(0)?.getTemp()}")
 }
 
 @Composable

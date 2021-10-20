@@ -121,8 +121,13 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getTempInteger() =
         temp?.temp?.toInt()?.toString()
 
-    fun getTempWithDegree() =
-        temp?.temp?.toInt()?.toString()
+    fun getTempWithDegree(): String {
+        val wc = if (temp?.temp?.compareTo(0) ?: 0 > 0)
+                    "+"
+                 else
+                     ""
+        return wc + temp?.temp?.toInt()?.toString() + "\u00b0"
+    }
 
     fun getTempMin() =
         temp?.temp_min.toString()
