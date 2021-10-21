@@ -1,5 +1,6 @@
 package com.education.appcomposeretrofit
 
+import android.inputmethodservice.Keyboard
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -7,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -68,27 +70,35 @@ fun Screen(viewModel: WeatherViewModel){
 
 @Composable
 fun Today(data: WeatherDay){
-    Column(modifier = Modifier.fillMaxWidth()
+    Column(modifier = Modifier
+        .fillMaxWidth()
         .padding(0.dp)
         .background(MaterialTheme.colors.primary),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(modifier = Modifier.wrapContentSize()
+        Text(modifier = Modifier
+            .wrapContentSize()
             .padding(top = 16.dp),
             color = Color.White,
             text = "${data.getCity()}"
         )
-        Text(modifier = Modifier.wrapContentSize(),
-            color = Color.White,
-            style = MaterialTheme.typography.h1,
-            text = data.getTempWithDegree()
-        )
+        
+        Row(modifier = Modifier.wrapContentSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(modifier = Modifier.wrapContentSize(),
+                color = Color.White,
+                style = MaterialTheme.typography.h1,
+                text = data.getTempWithDegree()
+            )
+        }
 
         Text(modifier = Modifier.wrapContentSize(),
             color = Color.White,
             text = data.getDescription()
         )
 
-        Text(modifier = Modifier.wrapContentSize()
+        Text(modifier = Modifier
+            .wrapContentSize()
             .padding(bottom = 16.dp),
             color = Color(255,255,255,200),
             text = "Ощущается как: ${data.getFeelLike()}"
