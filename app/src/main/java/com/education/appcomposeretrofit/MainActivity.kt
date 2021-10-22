@@ -17,6 +17,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +29,7 @@ import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherApi
 import com.education.appcomposeretrofit.weather.WeatherDay
 import com.education.appcomposeretrofit.weather.WeatherForecast
+import com.skydoves.landscapist.glide.GlideImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,6 +91,14 @@ fun Today(data: WeatherDay){
                 color = Color.White,
                 style = MaterialTheme.typography.h1,
                 text = data.getTempWithDegree()
+            )
+            GlideImage(
+                imageModel = data.getIconUrl(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .width(50.dp)
+                    .height(50.dp)
             )
         }
 

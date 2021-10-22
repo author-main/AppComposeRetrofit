@@ -15,7 +15,7 @@ val RobotoThin = FontFamily(
 val Typography = Typography(
     h1 = TextStyle(
         fontFamily = RobotoThin,
-        fontSize = 60.sp
+        fontSize = 50.sp
     ),
     body1 = TextStyle(
         fontFamily = FontFamily.Default,

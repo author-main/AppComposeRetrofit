@@ -23,7 +23,7 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
         repository.updateForecast()
     }
 
-    fun getImageFromUrl(value: String?): Bitmap {
+  /*  fun getImageFromUrl(value: String?) {
         value?.let{
             var image: Bitmap? = null
             val url = URL(it)
@@ -35,21 +35,6 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
                 }
             }
         }
-    }
+    }*/
 
 }
-
-/*
-private var image: Bitmap? = null
- private fun getBitmapFromURL(src: String?) {
-    CoroutineScope(Job() + Dispatchers.IO).launch {
-        try {
-            val url = URL(src)
-            val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-            image = Bitmap.createScaledBitmap(bitMap, 100, 100, true)
-        } catch (e: IOException) {
-            // Log exception
-        }
-    }
-}
- */
