@@ -1,6 +1,5 @@
 package com.education.appcomposeretrofit
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.education.appcomposeretrofit.weather.WeatherApi
 import com.education.appcomposeretrofit.weather.WeatherDay
@@ -8,10 +7,6 @@ import com.education.appcomposeretrofit.weather.WeatherForecast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
 
 class Repository {
     private val lat = 48.192638
@@ -41,6 +36,8 @@ class Repository {
             }
 
             override fun onFailure(call: Call<WeatherDay>?, t: Throwable?) {
+                log("error day")
+                log("${t?.message}")
             }
         })
 
@@ -56,6 +53,7 @@ class Repository {
                 }
             }
             override fun onFailure(call: Call<WeatherForecast>?, t: Throwable?) {
+                log("${t?.message}")
             }
         })
     }
