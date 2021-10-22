@@ -62,6 +62,7 @@ http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=dc2e12a90c095c2
  */
 
 class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDescription>) {
+    private val calendar = Calendar.getInstance()
     private val sourceIconUrl = "http://openweathermap.org/img/w/"
     class WeatherTemp {
         // свойства объекта "main"
@@ -120,9 +121,8 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     }
 
     fun isWeekend(): Boolean {
-        val date = Calendar.getInstance()
-        date.timeInMillis = timestamp * 1000
-        val day: Int = date.get(Calendar.DAY_OF_WEEK)
+        calendar.timeInMillis = timestamp * 1000
+        val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
         return day == Calendar.SATURDAY || day == Calendar.SUNDAY
     }
 
