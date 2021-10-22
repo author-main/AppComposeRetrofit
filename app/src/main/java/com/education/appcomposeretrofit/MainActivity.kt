@@ -1,13 +1,11 @@
 package com.education.appcomposeretrofit
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -17,22 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
-import com.education.appcomposeretrofit.weather.WeatherApi
 import com.education.appcomposeretrofit.weather.WeatherDay
 import com.education.appcomposeretrofit.weather.WeatherForecast
-import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
     private val viewModel: WeatherViewModel by viewModels(factoryProducer = {
@@ -97,8 +84,8 @@ fun Today(data: WeatherDay){
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .width(50.dp)
-                    .height(50.dp)
+                    .width(70.dp)
+                    .height(70.dp)
             )
         }
 
