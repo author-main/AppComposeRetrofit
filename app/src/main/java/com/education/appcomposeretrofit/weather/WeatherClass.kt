@@ -105,10 +105,32 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     }*/
 
     fun getDate(): String {
-        val pattern = "dd MMM yyyy"
+        val pattern = "dd MMMM"
         val dateFormat: DateFormat = SimpleDateFormat(pattern, Locale.getDefault())
         return dateFormat.format(timestamp * 1000)
     }
+
+
+    fun getDayWeek(): String{
+        val format = SimpleDateFormat("EEEE", Locale.getDefault())
+        return if (timestamp == 0L)
+            ""
+        else
+            format.format(timestamp * 1000)
+    }
+
+    fun isWeekend(): Boolean {
+        val date = Calendar.getInstance()
+        date.timeInMillis = timestamp * 1000
+        val day: Int = date.get(Calendar.DAY_OF_WEEK)
+        return day == Calendar.SATURDAY || day == Calendar.SUNDAY
+    }
+
+
+
+
+    //fun getTimeStamp() = timestamp
+
 
     /*fun getTemperature() =
         temp*/

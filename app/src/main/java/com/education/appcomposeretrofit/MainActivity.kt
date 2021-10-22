@@ -6,6 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -16,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherDay
 import com.education.appcomposeretrofit.weather.WeatherForecast
@@ -51,8 +56,12 @@ fun Screen(viewModel: WeatherViewModel){
         .forecastWeek
         .observeAsState(WeatherForecast())
 
-    Today(dataToday)
-    DaysOfWeek(dataWeek.getItems())
+    Column(modifier = Modifier
+        .fillMaxSize()) {
+            Today(dataToday)
+            DaysOfWeek(dataWeek.getItems())
+        }
+
 
         //Text(text = "temperatureToday ${dataToday.getTemp()}\ntemperatureWeek ${dataWeek.getItems()?.get(0)?.getTemp()}")
 }
@@ -61,7 +70,6 @@ fun Screen(viewModel: WeatherViewModel){
 fun Today(data: WeatherDay){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(0.dp)
         .background(MaterialTheme.colors.primary),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(modifier = Modifier
@@ -98,7 +106,7 @@ fun Today(data: WeatherDay){
             .wrapContentSize()
             .padding(bottom = 16.dp),
             color = Color(255,255,255,200),
-            text = "Ощущается как: ${data.getFeelLike()}"
+            text = "Ощущается как: ${data.getFeelLike()}",
         )
 
     }
@@ -107,12 +115,43 @@ fun Today(data: WeatherDay){
 
 @Composable
 fun DaysOfWeek(data: List<WeatherDay>?){
-    //Text(text = "temperatureWeek ${data?.get(0)?.getTemp()}")
+    data?.let {items ->
+        LazyColumn( modifier = Modifier.fillMaxSize()
+            .padding(16.dp)
+        ) {
+            itemsIndexed(items) { index, item, -> RowOfDay(item, index) }
+        }
+    }
 }
 
 @Composable
-fun RowOfDay(data: WeatherDay){
+fun RowOfDay(item: WeatherDay, index: Int){
+    val dayWeek = arrayOf("сегодня", "завтра")
+    val color = if (item.isWeekend())
+            Color.Red
+        else
+            Color.DarkGray
+    val textDayWeek = if (index > 1)
+            item.getDayWeek()
+        else
+            dayWeek[index]
 
+
+
+    Column(modifier = Modifier.padding(vertical = 4.dp)) {
+        Text(
+            modifier = Modifier.wrapContentSize(),
+            color = Color.LightGray,
+            fontSize = 14.sp,
+            text = item.getDate()
+        )
+        Text(
+            modifier = Modifier.wrapContentSize(),
+            color = color,
+            text = textDayWeek
+            //.padding(start = 16.dp, end = 16.dp),
+        )
+    }
 }
 
 /*@Preview(showBackground = true)
