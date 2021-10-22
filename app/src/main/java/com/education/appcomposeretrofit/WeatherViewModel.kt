@@ -23,20 +23,6 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
         repository.updateForecast()
     }
 
-    fun getImageFromUrl(value: String?): Bitmap {
-        value?.let{
-            var image: Bitmap? = null
-            val url = URL(it)
-            val stream = url.openConnection().getInputStream()
-            viewModelScope.launch {
-                image = withContext(Dispatchers.IO) {
-                    val bitmap = BitmapFactory.decodeStream(stream)
-                    Bitmap.createScaledBitmap(bitmap, 100, 100, true)
-                }
-            }
-        }
-    }
-
 }
 
 /*
