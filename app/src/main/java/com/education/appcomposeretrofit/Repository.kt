@@ -17,8 +17,12 @@ class Repository {
     private val lat = 48.192638
     private val lon = 41.283229
     private val apiInterface: WeatherApi.ApiInterface? = WeatherApi.getRetrofitApi()
-    private val forecastToday: MutableLiveData<WeatherDay>      = MutableLiveData<WeatherDay>()
-    private val forecastWeek: MutableLiveData<WeatherForecast>  = MutableLiveData<WeatherForecast>()
+    private val forecastToday: MutableLiveData<WeatherDay> by lazy {
+        MutableLiveData<WeatherDay>()
+    }
+    private val forecastWeek: MutableLiveData<WeatherForecast> by lazy {
+        MutableLiveData<WeatherForecast>()
+    }
     fun getDataToday(): MutableLiveData<WeatherDay> =
         forecastToday
 
