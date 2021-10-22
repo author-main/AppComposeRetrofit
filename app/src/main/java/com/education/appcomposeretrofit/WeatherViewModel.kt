@@ -23,15 +23,36 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
         repository.updateForecast()
     }
 
-  /*  fun getImageFromUrl(value: String?) {
-        value?.let{
-            var image: Bitmap? = null
-            val url = URL(it)
-            val stream = url.openConnection().getInputStream()
-            viewModelScope.launch {
-                image = withContext(Dispatchers.IO) {
-                    val bitmap = BitmapFactory.decodeStream(stream)
-                    Bitmap.createScaledBitmap(bitmap, 100, 100, true)
+    /*class ImageLoader(builder: Builder){
+        private val image: Bitmap? = null
+        fun getImage() = image
+        companion object Builder{
+            private var path: String? = null
+            private var image: Bitmap? = null
+            fun path(value: String?): Builder{
+                path = value
+                return this
+            }
+
+            fun into(value: Bitmap): Builder{
+                image = value
+                getImageFromUrl()
+                return this
+            }
+
+            fun build(): ImageLoader {
+                return ImageLoader(this)
+            }
+
+            private fun getImageFromUrl() {
+               val scope = CoroutineScope(Dispatchers.Main + Job())
+               val url = URL(path)
+               val stream = url.openStream()//openConnection().getInputStream()
+               scope.launch {
+                   withContext(Dispatchers.IO) {
+                       val urlBitmap = BitmapFactory.decodeStream(stream)
+                       image = Bitmap.createScaledBitmap(urlBitmap, 50, 50, true)
+                   }
                 }
             }
         }
