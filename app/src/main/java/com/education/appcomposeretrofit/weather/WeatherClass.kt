@@ -132,10 +132,24 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getTempWithDegree() =
         getTempDegree(temp?.temp)
 
+    fun setTempMax(value: Double){
+        if (temp?.temp_max != null)
+            temp?.temp_max = value
+    }
+
+    fun setTempMin(value: Double){
+        if (temp?.temp_min != null)
+            temp?.temp_min = value
+    }
+
     fun getTempMax() =
         temp?.temp_max ?: 0.0
 
-        //getTempDegree(temp?.temp_max)
+    fun getTempMaxDegree() =
+        getTempDegree(temp?.temp_max)
+
+    fun getTempMinDegree() =
+        getTempDegree(temp?.temp_min)
 
     fun getTempMin() =
         temp?.temp_min ?: 0.0

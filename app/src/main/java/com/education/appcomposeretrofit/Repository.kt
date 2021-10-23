@@ -63,10 +63,10 @@ class Repository {
                 }
 
                 fun getMin(items: List<WeatherDay>, indexFrom: Int, indexTo: Int): Double {
-                    var min = items[indexFrom].getTempMax()
+                    var min = items[indexFrom].getTempMin()
                     for (i in indexFrom..indexTo) {
-                        if (items[i].getTempMax() < min)
-                            min = items[i].getTempMax()
+                        if (items[i].getTempMin() < min)
+                            min = items[i].getTempMin()
                     }
                     return min
                 }
@@ -81,12 +81,38 @@ class Repository {
                             for (i in items.indices)
                                 if (getDay(items[i].getTimeStamp()) != day) {
                                     day = getDay(items[i].getTimeStamp())
-                                   /* val max = getMax(items, prev, i - 1)
-                                    val min = getMin(items, prev, i - 1)
-                                    log ("prev=$prev - i=${i-1}")
-                                    log("min $min - max $max")  */
                                     list.add(items[i])
                                 }
+
+                            list.forEach {item ->
+                               day = getDay(item.getTimeStamp())
+                               var start = -1
+                                var last = false
+                               for (i in items.indices){
+                                   val matched = getDay(items[i].getTimeStamp()) == day
+                                   if (matched && start == -1)
+                                       start = i
+
+                                   if (matched && start != -1 && i == items.size - 1)
+                                       last = true
+
+
+                                   if ((!matched && start != -1) || last){
+                                       val index = if (last)
+                                                        items.size - 1
+                                                    else
+                                                        i - 1
+                                       val min = getMin(items, start, index)
+                                       val max = getMax(items, start, index)
+                                       item.setTempMax(max)
+                                       item.setTempMin(min)
+                                       break
+                                   }
+                               }
+
+                            }
+
+
 
 
 
