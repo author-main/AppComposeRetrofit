@@ -49,7 +49,7 @@ class Repository {
         callForecast?.enqueue(object: Callback<WeatherForecast>{
             override fun onResponse(call: Call<WeatherForecast>?, response: Response<WeatherForecast>?) {
                 val calendar = Calendar.getInstance()
-                fun getDay(timestamp: Long): Int{
+              /*  fun getDay(timestamp: Long): Int{
                     calendar.timeInMillis = timestamp * 1000
                     return calendar.get(Calendar.DAY_OF_MONTH)
                 }
@@ -69,11 +69,17 @@ class Repository {
                             min = items[i].getTempMin()
                     }
                     return min
-                }
+                }*/
 
                 response?.let{ it ->
                     if (it.isSuccessful) {
                         val data = it.body()
+                        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                        val minute  = calendar.get(Calendar.MINUTE)
+                        val time = hour * 60 + minute
+                        var i = 0
+
+                        log("$hour:$minute")
                       /*  data?.getItems()?.let{items ->
                             val list = mutableListOf<WeatherDay>()
                             list.add(items[0])
