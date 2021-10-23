@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -116,10 +118,14 @@ fun Today(data: WeatherDay){
 @Composable
 fun DaysOfWeek(data: List<WeatherDay>?){
     data?.let {items ->
-        LazyColumn( modifier = Modifier.fillMaxSize()
+        LazyColumn( modifier = Modifier
+            .fillMaxSize()
+            //.verticalScroll(rememberScrollState())
             .padding(16.dp)
         ) {
-            itemsIndexed(items) { index, item, -> RowOfDay(item, index) }
+            itemsIndexed(items) { index, item, -> RowOfDay(item, index)
+          }
+
         }
     }
 }

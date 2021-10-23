@@ -7,6 +7,7 @@ import com.education.appcomposeretrofit.weather.WeatherForecast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class Repository {
     private val lat = 48.192638
@@ -47,9 +48,27 @@ class Repository {
         val callForecast: Call<WeatherForecast>? = apiInterface?.getForecast(lat, lon, "metric", WeatherApi.key)
         callForecast?.enqueue(object: Callback<WeatherForecast>{
             override fun onResponse(call: Call<WeatherForecast>?, response: Response<WeatherForecast>?) {
-                response?.let{
-                    if (it.isSuccessful)
+                val calendar = Calendar.getInstance()
+                fun getDay(timestamp: Long): Int{
+                    calendar.timeInMillis = timestamp * 1000
+                    return calendar.get(Calendar.DAY_OF_MONTH)
+                }
+                response?.let{ it ->
+                    if (it.isSuccessful) {
+                        val data = it.body()
+                        data?.getItems()?.let{items ->
+                            var before = 0
+                            val day = getDay(items[0].getTimeStamp())
+                            for (i in items.indices)
+                                if (getDay(items[i].getTimeStamp()) != day) {
+                                    before = i
+                                    break
+                                }
+                            log ("before $before")
+                        }
+
                         forecastWeek.postValue(it.body())
+                    }
                 }
             }
             override fun onFailure(call: Call<WeatherForecast>?, t: Throwable?) {

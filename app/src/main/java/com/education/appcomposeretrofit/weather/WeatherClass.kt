@@ -129,7 +129,7 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
 
 
 
-    //fun getTimeStamp() = timestamp
+    fun getTimeStamp() = timestamp
 
 
     /*fun getTemperature() =
