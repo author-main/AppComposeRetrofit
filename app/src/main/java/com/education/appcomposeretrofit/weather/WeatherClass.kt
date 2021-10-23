@@ -121,13 +121,12 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         getTempDegree(temp?.feels_like)
 
     private fun getTempDegree(value: Double?): String{
-        if (value == null)
-            return ""
-        val wc = if (value > 0)
-            "+"
-        else
-            ""
-        return wc + value.toInt() + "\u00b0"
+        var wc = ""
+        return value?.let{
+            if (it > 0)
+                wc = "+"
+            wc + it.toInt() + "\u00b0"
+        } ?: wc
     }
 
     fun getTempWithDegree() =
