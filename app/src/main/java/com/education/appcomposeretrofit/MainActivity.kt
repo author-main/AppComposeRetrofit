@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -125,7 +126,9 @@ fun DaysOfWeek(data: List<WeatherDay>?){
             //.verticalScroll(rememberScrollState())
             .padding(16.dp)
         ) {
-            itemsIndexed(items) { index, item, -> RowOfDay(item, index)
+                itemsIndexed(items) { index, item, -> RowOfDay(item, index)
+                if (index < items.size-1)
+                    Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .2f))
           }
 
         }
@@ -145,7 +148,8 @@ fun RowOfDay(item: WeatherDay, index: Int){
             dayWeek[index]
 
 
-    Row(modifier = Modifier.fillMaxWidth(),
+    Row(modifier = Modifier.fillMaxWidth()
+        .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Column(
             modifier = Modifier.wrapContentWidth()
@@ -195,6 +199,7 @@ fun RowOfDay(item: WeatherDay, index: Int){
                 text = item.getFeelLike()
             )
         }
+
     }
 
 }
