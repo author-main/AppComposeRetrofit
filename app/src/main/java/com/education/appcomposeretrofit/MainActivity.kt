@@ -20,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -38,7 +39,6 @@ class MainActivity : ComponentActivity() {
             (application as AppComposeRetrofit).repository
         )
     })
-  //  val todayTemp = mutableStateOf(WeatherDay())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -66,20 +66,24 @@ fun Screen(viewModel: WeatherViewModel){
             Today(dataToday)
             DaysOfWeek(dataWeek.getItems())
         }
-
-
-        //Text(text = "temperatureToday ${dataToday.getTemp()}\ntemperatureWeek ${dataWeek.getItems()?.get(0)?.getTemp()}")
 }
 
 @Composable
 fun Today(data: WeatherDay){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .background(MaterialTheme.colors.primary),
+        .background(
+        brush = Brush.verticalGradient(
+                colors = listOf(
+                    MaterialTheme.colors.primaryVariant,
+                    MaterialTheme.colors.primary
+                )
+            )
+        )
+        .padding(vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(modifier = Modifier
-            .wrapContentSize()
-            .padding(top = 16.dp),
+            .wrapContentSize(),
             color = Color.White,
             text = "${data.getCity()}"
         )
@@ -108,8 +112,7 @@ fun Today(data: WeatherDay){
         )
 
         Text(modifier = Modifier
-            .wrapContentSize()
-            .padding(bottom = 16.dp),
+            .wrapContentSize(),
             color = Color(255,255,255,200),
             text = "Ощущается как: ${data.getFeelLike()}",
         )
@@ -123,7 +126,6 @@ fun DaysOfWeek(data: List<WeatherDay>?){
     data?.let {items ->
         LazyColumn( modifier = Modifier
             .fillMaxSize()
-            //.verticalScroll(rememberScrollState())
             .padding(16.dp)
         ) {
                 itemsIndexed(items) { index, item, -> RowOfDay(item, index)
