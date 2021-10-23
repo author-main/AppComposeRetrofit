@@ -77,7 +77,10 @@ class Repository {
                         val hour = calendar.get(Calendar.HOUR_OF_DAY)
                         val minute  = calendar.get(Calendar.MINUTE)
                         val time = hour * 60 + minute
-                        var i = 0
+                        for (i in 1..8) {
+                            val endHour = i * 3 * 60
+                            log ("hour $endHour -> time $time")
+                        }
 
                         log("$hour:$minute")
                       /*  data?.getItems()?.let{items ->
