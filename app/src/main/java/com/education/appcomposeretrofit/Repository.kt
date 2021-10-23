@@ -74,7 +74,7 @@ class Repository {
                 response?.let{ it ->
                     if (it.isSuccessful) {
                         val data = it.body()
-                        data?.getItems()?.let{items ->
+                      /*  data?.getItems()?.let{items ->
                             val list = mutableListOf<WeatherDay>()
                             list.add(items[0])
                             var day = getDay(items[0].getTimeStamp())
@@ -119,8 +119,8 @@ class Repository {
                             val forecast = WeatherForecast()
                             forecast.setItems(list)
                             forecastWeek.postValue(forecast)
-                        }
-                        //forecastWeek.postValue(data)
+                        }*/
+                        forecastWeek.postValue(data)
                     }
                 }
             }
