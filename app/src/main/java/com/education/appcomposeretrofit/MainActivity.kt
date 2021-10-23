@@ -132,7 +132,6 @@ fun DaysOfWeek(data: List<WeatherDay>?){
                 if (index < items.size-1)
                     Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .2f))
           }
-
         }
     }
 }
@@ -185,7 +184,6 @@ fun RowOfDay(item: WeatherDay, index: Int){
             Text(
                 modifier = Modifier
                     .width(60.dp),
-
                 textAlign = TextAlign.Right,
                 color = Color.DarkGray,
                 fontWeight = FontWeight.Bold,

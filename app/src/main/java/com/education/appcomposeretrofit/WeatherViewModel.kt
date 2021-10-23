@@ -47,7 +47,7 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
             private fun getImageFromUrl() {
                val scope = CoroutineScope(Dispatchers.Main + Job())
                val url = URL(path)
-               val stream = url.openStream()//openConnection().getInputStream()
+               val stream = url.openStream()
                scope.launch {
                    withContext(Dispatchers.IO) {
                        val urlBitmap = BitmapFactory.decodeStream(stream)

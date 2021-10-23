@@ -38,8 +38,7 @@ class Repository {
             }
 
             override fun onFailure(call: Call<WeatherDay>?, t: Throwable?) {
-                log("error day")
-                log("${t?.message}")
+              log("${t?.message}")
             }
         })
 

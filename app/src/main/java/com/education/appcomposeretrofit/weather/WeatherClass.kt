@@ -94,17 +94,6 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     @SerializedName("dt")
     private var timestamp: Long = 0
 
-    /*init{
-        temp = weatherTemp
-        description = weatherDescription
-    }*/
-
-   /* fun getCalendar(): Calendar {
-        val date = Calendar.getInstance()
-        date.timeInMillis = timestamp * 1000
-        return date
-    }*/
-
     fun getDate(): String {
         val pattern = "dd MMMM"
         val dateFormat: DateFormat = SimpleDateFormat(pattern, Locale.getDefault())
@@ -126,28 +115,10 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         return day == Calendar.SATURDAY || day == Calendar.SUNDAY
     }
 
-
-
-
     fun getTimeStamp() = timestamp
-
-
-    /*fun getTemperature() =
-        temp*/
-
-    fun getTemp() =
-        temp?.temp.toString()
 
     fun getFeelLike() =
         getTempDegree(temp?.feels_like)
-
-    fun setTemp(value: Double) {
-        temp?.temp = value
-    }
-
-    fun getTempInteger() =
-        temp?.temp?.toInt()?.toString()
-
 
     private fun getTempDegree(value: Double?): String{
         val wc = if (value?.compareTo(0) ?: 0 > 0)
@@ -157,21 +128,11 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         return wc + value?.toInt() + "\u00b0"
     }
 
-
     fun getTempWithDegree() =
         getTempDegree(temp?.temp)
 
-    fun getTempMin() =
-        temp?.temp_min.toString()
-
-    fun getTempMax() =
-        temp?.temp_max.toString()
-
     fun getCity() =
         city
-
-    fun getIcon() =
-        description?.get(0)?.icon
 
     fun getDescription(): String  {
         val note = description?.get(0)?.description ?: ""
@@ -183,26 +144,16 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getIconUrl() =
         sourceIconUrl + description?.get(0)?.icon + ".png"
 
-    /*fun forecastNotUpdated() =
-        (temp == null) ?: false*/
-
 }
 
 class WeatherForecast {
-    //(items: List<WeatherDay>){
     @SerializedName("list")
     private var items: List<WeatherDay>? = null
 
-    /*  init{
-        this.items = items
-    }*/
     fun getItems() =
         items
 
     fun setItems(list: List<WeatherDay>) {
         items = list
     }
-
-    /*fun forecastNotUpdated() =
-        (items == null) ?: false*/
 }
