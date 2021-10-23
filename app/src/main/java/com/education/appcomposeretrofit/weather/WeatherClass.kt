@@ -121,18 +121,22 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         getTempDegree(temp?.feels_like)
 
     private fun getTempDegree(value: Double?): String{
-        val wc = if (value?.compareTo(0) ?: 0 > 0)
+        if (value == null)
+            return ""
+        val wc = if (value > 0)
             "+"
         else
             ""
-        return wc + value?.toInt() + "\u00b0"
+        return wc + value.toInt() + "\u00b0"
     }
 
     fun getTempWithDegree() =
         getTempDegree(temp?.temp)
 
-    fun getCity() =
-        city
+    fun getCity(): String {
+        return city ?: ""
+    }
+
 
     fun getDescription(): String  {
         val note = description?.get(0)?.description ?: ""

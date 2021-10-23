@@ -132,6 +132,7 @@ fun DaysOfWeek(data: List<WeatherDay>?){
                 if (index < items.size-1)
                     Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .2f))
           }
+
         }
     }
 }
