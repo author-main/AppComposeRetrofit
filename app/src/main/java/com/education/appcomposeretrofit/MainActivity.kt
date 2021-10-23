@@ -85,7 +85,7 @@ fun Today(data: WeatherDay){
         Text(modifier = Modifier
             .wrapContentSize(),
             color = Color.White,
-            text = "${data.getCity()}"
+            text = data.getCity()
         )
         
         Row(modifier = Modifier.wrapContentSize(),
@@ -161,7 +161,7 @@ fun RowOfDay(item: WeatherDay, index: Int){
             Text(
                 modifier = Modifier.wrapContentSize(),
                 color = Color.LightGray,
-                fontSize = 14.sp,
+                fontSize = 13.sp,
                 text = item.getDate()
             )
             Text(
@@ -187,9 +187,9 @@ fun RowOfDay(item: WeatherDay, index: Int){
                     .width(60.dp),
                 textAlign = TextAlign.Right,
                 color = Color.DarkGray,
-                fontWeight = FontWeight.Bold,
+                //fontWeight = FontWeight.Bold,
                 fontSize = 21.sp,
-                text = item.getTempMax()//item.getTempWithDegree()
+                text = item.getTempWithDegree() //item.getTempMax()
             )
             Text(
                 modifier = Modifier
@@ -197,7 +197,7 @@ fun RowOfDay(item: WeatherDay, index: Int){
                 textAlign = TextAlign.Right,
                 color = Color(120,120,120),
                 fontSize = 18.sp,
-                text = item.getTempMin()//item.getFeelLike()
+                text = item.getFeelLike() //item.getTempMin()
             )
         }
 

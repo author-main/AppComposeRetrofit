@@ -53,6 +53,24 @@ class Repository {
                     calendar.timeInMillis = timestamp * 1000
                     return calendar.get(Calendar.DAY_OF_MONTH)
                 }
+                fun getMax(items: List<WeatherDay>, indexFrom: Int, indexTo: Int): Double {
+                    var max = items[indexFrom].getTempMax()
+                    for (i in indexFrom..indexTo) {
+                        if (items[i].getTempMax() > max)
+                            max = items[i].getTempMax()
+                    }
+                    return max
+                }
+
+                fun getMin(items: List<WeatherDay>, indexFrom: Int, indexTo: Int): Double {
+                    var min = items[indexFrom].getTempMax()
+                    for (i in indexFrom..indexTo) {
+                        if (items[i].getTempMax() < min)
+                            min = items[i].getTempMax()
+                    }
+                    return min
+                }
+
                 response?.let{ it ->
                     if (it.isSuccessful) {
                         val data = it.body()
@@ -63,13 +81,20 @@ class Repository {
                             for (i in items.indices)
                                 if (getDay(items[i].getTimeStamp()) != day) {
                                     day = getDay(items[i].getTimeStamp())
+                                   /* val max = getMax(items, prev, i - 1)
+                                    val min = getMin(items, prev, i - 1)
+                                    log ("prev=$prev - i=${i-1}")
+                                    log("min $min - max $max")  */
                                     list.add(items[i])
                                 }
+
+
+
                             val forecast = WeatherForecast()
                             forecast.setItems(list)
                             forecastWeek.postValue(forecast)
                         }
-
+                        //forecastWeek.postValue(data)
                     }
                 }
             }
