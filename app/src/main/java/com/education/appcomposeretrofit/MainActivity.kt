@@ -189,7 +189,7 @@ fun RowOfDay(item: WeatherDay, index: Int){
                 color = Color.DarkGray,
                 fontWeight = FontWeight.Bold,
                 fontSize = 21.sp,
-                text = item.getTempWithDegree()
+                text = item.getTempMax()//item.getTempWithDegree()
             )
             Text(
                 modifier = Modifier
@@ -197,7 +197,7 @@ fun RowOfDay(item: WeatherDay, index: Int){
                 textAlign = TextAlign.Right,
                 color = Color(120,120,120),
                 fontSize = 18.sp,
-                text = item.getFeelLike()
+                text = item.getTempMin()//item.getFeelLike()
             )
         }
 

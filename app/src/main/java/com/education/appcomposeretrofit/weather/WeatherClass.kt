@@ -132,6 +132,12 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getTempWithDegree() =
         getTempDegree(temp?.temp)
 
+    fun getTempMax() =
+        getTempDegree(temp?.temp_max)
+
+    fun getTempMin() =
+        getTempDegree(temp?.temp_min)
+
     fun getCity(): String {
         return city ?: ""
     }
