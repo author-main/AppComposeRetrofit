@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.math.roundToInt
 
 class Repository {
     private val lat = 48.192638
@@ -57,17 +58,19 @@ class Repository {
                     if (it.isSuccessful) {
                         val data = it.body()
                         data?.getItems()?.let{items ->
-                            var before = 0
-                            val day = getDay(items[0].getTimeStamp())
+                            val list = mutableListOf<WeatherDay>()
+                            list.add(items[0])
+                            var day = getDay(items[0].getTimeStamp())
                             for (i in items.indices)
                                 if (getDay(items[i].getTimeStamp()) != day) {
-                                    before = i
-                                    break
+                                    day = getDay(items[i].getTimeStamp())
+                                    list.add(items[i])
                                 }
-                            log ("before $before")
+                            val forecast = WeatherForecast()
+                            forecast.setItems(list)
+                            forecastWeek.postValue(forecast)
                         }
 
-                        forecastWeek.postValue(it.body())
                     }
                 }
             }

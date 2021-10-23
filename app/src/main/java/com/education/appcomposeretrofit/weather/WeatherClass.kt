@@ -188,14 +188,20 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
 
 }
 
-class WeatherForecast{//(items: List<WeatherDay>){
+class WeatherForecast {
+    //(items: List<WeatherDay>){
     @SerializedName("list")
     private var items: List<WeatherDay>? = null
-  /*  init{
+
+    /*  init{
         this.items = items
     }*/
     fun getItems() =
         items
+
+    fun setItems(list: List<WeatherDay>) {
+        items = list
+    }
 
     /*fun forecastNotUpdated() =
         (items == null) ?: false*/

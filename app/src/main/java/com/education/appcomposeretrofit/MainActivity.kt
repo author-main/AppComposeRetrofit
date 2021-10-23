@@ -21,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
@@ -143,21 +145,58 @@ fun RowOfDay(item: WeatherDay, index: Int){
             dayWeek[index]
 
 
+    Row(modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically) {
+        Column(
+            modifier = Modifier.wrapContentWidth()
+                .padding(vertical = 4.dp)
 
-    Column(modifier = Modifier.padding(vertical = 4.dp)) {
-        Text(
-            modifier = Modifier.wrapContentSize(),
-            color = Color.LightGray,
-            fontSize = 14.sp,
-            text = item.getDate()
-        )
-        Text(
-            modifier = Modifier.wrapContentSize(),
-            color = color,
-            text = textDayWeek
-            //.padding(start = 16.dp, end = 16.dp),
-        )
+        ) {
+            Text(
+                modifier = Modifier.wrapContentSize(),
+                color = Color.LightGray,
+                fontSize = 14.sp,
+                text = item.getDate()
+            )
+            Text(
+                modifier = Modifier.wrapContentSize(),
+                color = color,
+                text = textDayWeek
+            )
+        }
+        Row(modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+            ) {
+            GlideImage(
+                imageModel = item.getIconUrl(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .width(50.dp)
+                    .height(50.dp)
+            )
+            Text(
+                modifier = Modifier
+                    .width(60.dp),
+
+                textAlign = TextAlign.Right,
+                color = Color.DarkGray,
+                fontWeight = FontWeight.Bold,
+                fontSize = 21.sp,
+                text = item.getTempWithDegree()
+            )
+            Text(
+                modifier = Modifier
+                    .width(50.dp),
+                textAlign = TextAlign.Right,
+                color = Color(120,120,120),
+                fontSize = 18.sp,
+                text = item.getFeelLike()
+            )
+        }
     }
+
 }
 
 /*@Preview(showBackground = true)
