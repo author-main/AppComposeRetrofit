@@ -11,8 +11,14 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class Repository {
+    /**
+     *  Задайте свои координаты населенного пункта
+     *  lat - широта
+     *  lon - долгота
+     */
     private val lat = 48.192638
     private val lon = 41.283229
+
     private val apiInterface: WeatherApi.ApiInterface? = WeatherApi.getRetrofitApi()
     private val forecastToday: MutableLiveData<WeatherDay> by lazy {
         MutableLiveData<WeatherDay>()
@@ -53,33 +59,12 @@ class Repository {
                     calendar.timeInMillis = timestamp * 1000
                     return calendar.get(Calendar.HOUR_OF_DAY)
                 }
-                /*fun getDay(timestamp: Long): Int{
-                    calendar.timeInMillis = timestamp * 1000
-                    return calendar.get(Calendar.DAY_OF_MONTH)
-                }
-                fun getMax(items: List<WeatherDay>, indexFrom: Int, indexTo: Int): Double {
-                    var max = items[indexFrom].getTempMax()
-                    for (i in indexFrom..indexTo) {
-                        if (items[i].getTempMax() > max)
-                            max = items[i].getTempMax()
-                    }
-                    return max
-                }
-
-                fun getMin(items: List<WeatherDay>, indexFrom: Int, indexTo: Int): Double {
-                    var min = items[indexFrom].getTempMin()
-                    for (i in indexFrom..indexTo) {
-                        if (items[i].getTempMin() < min)
-                            min = items[i].getTempMin()
-                    }
-                    return min
-                }*/
 
                 response?.let{ it ->
                     if (it.isSuccessful) {
                         val data = it.body()
-                        val hour = 10//calendar.get(Calendar.HOUR_OF_DAY)
-                        val minute  = 29//calendar.get(Calendar.MINUTE)
+                        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                        val minute  = calendar.get(Calendar.MINUTE)
                         val time = hour * 60 + minute
                         var segment = -1
                         for (i in 0..7) {

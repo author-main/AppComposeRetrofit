@@ -64,12 +64,20 @@ http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=dc2e12a90c095c2
 class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDescription>) {
     private val calendar = Calendar.getInstance()
     private val sourceIconUrl = "http://openweathermap.org/img/w/"
+
+    class WeatherWind{
+        var speed: Double? = null
+        var deg  : Int? = null
+    }
+
     class WeatherTemp {
         // свойства объекта "main"
         var temp: Double? = null
         var temp_min: Double? = null
         var temp_max: Double? = null
         var feels_like: Double? = null
+        var pressure: Int? = null
+        var humidity: Int? = null
     }
 
     class WeatherDescription{
@@ -82,6 +90,9 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     @SerializedName("main")
     private var temp: WeatherTemp? = null
 
+    @SerializedName("wind")
+    private var wind: WeatherWind? = null
+
     // значения объекта "weather" будут сохранены в классе WeatherDescription (список icon)
     @SerializedName("weather")
     private var description: List<WeatherDescription>? = null
@@ -93,6 +104,10 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     // свойство "dt"
     @SerializedName("dt")
     private var timestamp: Long = 0
+
+    fun getWindSpeed() = wind?.speed?.toString() ?: ""
+    fun getWindDeg() = wind?.deg?.toString() ?: ""
+
 
     fun getDate(): String {
         val pattern = "dd MMMM"// HH:mm"
@@ -117,6 +132,10 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
 
     fun getTimeStamp() = timestamp
 
+    fun getPressure() = temp?.pressure?.toString() ?: ""
+
+    fun getHumidity() = temp?.humidity?.toString() ?: ""
+
     fun getFeelLike() =
         getTempDegree(temp?.feels_like)
 
@@ -132,28 +151,6 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getTempWithDegree() =
         getTempDegree(temp?.temp)
 
-    fun setTempMax(value: Double){
-        if (temp?.temp_max != null)
-            temp?.temp_max = value
-    }
-
-    fun setTempMin(value: Double){
-        if (temp?.temp_min != null)
-            temp?.temp_min = value
-    }
-
-    fun getTempMax() =
-        temp?.temp_max ?: 0.0
-
-    fun getTempMaxDegree() =
-        getTempDegree(temp?.temp_max)
-
-    fun getTempMinDegree() =
-        getTempDegree(temp?.temp_min)
-
-    fun getTempMin() =
-        temp?.temp_min ?: 0.0
-        //getTempDegree(temp?.temp_min)
 
     fun getCity(): String {
         return city ?: ""

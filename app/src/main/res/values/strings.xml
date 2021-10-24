@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">AppComposeRetrofit</string>
     <string name="feel_like">"Ощущается как:\u0020"</string>
+    <string name="pressure">"мм рт.ст."</string>
+    <string name="speed">"м/с"</string>
+
+
 </resources>
