@@ -64,15 +64,19 @@ fun Screen(viewModel: WeatherViewModel){
         .forecastWeek
         .observeAsState(WeatherForecast())
 
+    val dataWeekMore: WeatherForecast by viewModel
+        .forecastWeekMore
+        .observeAsState(WeatherForecast())
+
     Column(modifier = Modifier
         .fillMaxSize()) {
-            Today(dataToday)
+            Today(dataToday, dataWeekMore)
             DaysOfWeek(dataWeek.getItems())
         }
 }
 
 @Composable
-fun Today(data: WeatherDay){
+fun Today(data: WeatherDay, dataHour: WeatherForecast){
     Column(modifier = Modifier
         .fillMaxWidth()
         .background(
@@ -120,6 +124,32 @@ fun Today(data: WeatherDay){
             color = Color(255,255,255,200),
             text = "${stringResource(R.string.feel_like)}${data.getFeelLike()}",
         )
+
+
+        LazyRow(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            item {
+                Column(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(end = 32.dp)
+                ) {
+                    RowWPH(index = 0, data = data)
+                    RowWPH(index = 1, data = data)
+                    RowWPH(index = 2, data = data)
+                }
+            }
+            dataHour.getItems()?.let {itemsHour ->
+                items(itemsHour) { item ->
+                    item.getTime()
+                    ColumnForecastHour(item)
+                }
+            }
+        }
+
        /* Row(modifier = Modifier.fillMaxWidth()) {
             Image(
                 painterResource(R.drawable.ic_wind),
@@ -129,18 +159,38 @@ fun Today(data: WeatherDay){
                 modifier = Modifier.wrapContentSize()
             )
         }*/
-        Column(modifier = Modifier.wrapContentSize()
-            .padding(start = 16.dp, end = 32.dp),
-            horizontalAlignment = Alignment.Start
-
-        ) {
-            RowWPH(index = 0, data = data)
-            RowWPH(index = 1, data = data)
-            RowWPH(index = 2, data = data)
-        }
-
     }
 
+}
+
+@Composable
+fun ColumnForecastHour(item: WeatherDay){
+    val textColor = Color(255,255,255,200)
+    Column(horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 8.dp)) {
+        Text(modifier = Modifier.padding(vertical = 8.dp),
+            text = item.getTime(),
+            color = textColor,
+            fontSize = 13.sp
+        )
+        GlideImage(
+            imageModel = item.getIconUrl(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .width(30.dp)
+                .height(30.dp)
+
+        )
+        Text(modifier = Modifier.padding(vertical = 8.dp),
+            text = item.getTempWithDegree(),
+            color = textColor,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+    }
 }
 
 @Composable
@@ -167,8 +217,8 @@ fun RowWPH(index: Int, data: WeatherDay?){
     }
     if (!value.isNullOrBlank()){
         Row(modifier = Modifier
-            .wrapContentSize()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically
             ){
             Image(

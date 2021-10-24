@@ -19,6 +19,11 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
         repository.getDataWeek()
     }
 
+    val forecastWeekMore: LiveData<WeatherForecast> by lazy {
+        repository.getDataWeekMore()
+    }
+
+
     init{
         repository.updateForecast()
     }

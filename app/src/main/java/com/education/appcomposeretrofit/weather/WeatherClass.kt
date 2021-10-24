@@ -115,6 +115,12 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
         return dateFormat.format(timestamp * 1000)
     }
 
+    fun getTime(): String {
+        val pattern = "HH:mm"
+        val dateFormat: DateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+        return dateFormat.format(timestamp * 1000)
+    }
+
 
     fun getDayWeek(): String{
         val format = SimpleDateFormat("EEEE", Locale.getDefault())

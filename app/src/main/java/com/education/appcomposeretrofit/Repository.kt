@@ -26,11 +26,19 @@ class Repository {
     private val forecastWeek: MutableLiveData<WeatherForecast> by lazy {
         MutableLiveData<WeatherForecast>()
     }
+
+    private val forecastWeekMore: MutableLiveData<WeatherForecast> by lazy {
+        MutableLiveData<WeatherForecast>()
+    }
+
     fun getDataToday(): MutableLiveData<WeatherDay> =
         forecastToday
 
     fun getDataWeek(): MutableLiveData<WeatherForecast> =
         forecastWeek
+
+    fun getDataWeekMore(): MutableLiveData<WeatherForecast> =
+        forecastWeekMore
 
 
     private fun getForecastToday(){
@@ -86,6 +94,7 @@ class Repository {
                         }
 
                         data?.getItems()?.let { items ->
+                            forecastWeekMore.postValue(data)
                             val list = mutableListOf<WeatherDay>()
                             for (i in items.indices){
                                val itemHour = getHour(items[i].getTimeStamp())
