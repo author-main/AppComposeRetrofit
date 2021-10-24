@@ -136,7 +136,6 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
                 item {
                     Column(
                         modifier = Modifier
-                            .wrapContentSize()
                             .padding(end = 32.dp)
                     ) {
                         RowWPH(index = 0, data = data)
