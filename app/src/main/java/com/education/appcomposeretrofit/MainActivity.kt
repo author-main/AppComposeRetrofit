@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -114,7 +115,7 @@ fun Today(data: WeatherDay){
         Text(modifier = Modifier
             .wrapContentSize(),
             color = Color(255,255,255,200),
-            text = "Ощущается как: ${data.getFeelLike()}",
+            text = "${stringResource(R.string.feel_like)}${data.getFeelLike()}",
         )
 
     }

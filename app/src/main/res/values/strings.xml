@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppComposeRetrofit</string>
+    <string name="feel_like">"Ощущается как:\u0020"</string>
 </resources>
