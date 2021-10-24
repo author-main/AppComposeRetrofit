@@ -80,6 +80,7 @@ class Repository {
                         for (i in 1..8) {
                             val endHour = i * 3 * 60
                             log ("hour $endHour -> time $time")
+
                         }
 
                         log("$hour:$minute")
