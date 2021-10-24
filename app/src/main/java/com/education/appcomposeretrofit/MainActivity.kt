@@ -87,7 +87,7 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
                 )
             )
         )
-        .padding(vertical = 32.dp),
+        .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(modifier = Modifier
             .wrapContentSize(),
@@ -126,30 +126,32 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
         )
 
 
-        LazyRow(modifier = Modifier
-            .height(150.dp)
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            item {
-                Column(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(end = 32.dp)
-                ) {
-                    RowWPH(index = 0, data = data)
-                    RowWPH(index = 1, data = data)
-                    RowWPH(index = 2, data = data)
+            LazyRow(
+                modifier = Modifier
+                    // .height(150.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(end = 32.dp)
+                    ) {
+                        RowWPH(index = 0, data = data)
+                        RowWPH(index = 1, data = data)
+                        RowWPH(index = 2, data = data)
+                    }
+                }
+                dataHour.getItems()?.let { itemsHour ->
+                    items(itemsHour) { item ->
+                        item.getTime()
+                        ColumnForecastHour(item)
+                    }
                 }
             }
-            dataHour.getItems()?.let {itemsHour ->
-                items(itemsHour) { item ->
-                    item.getTime()
-                    ColumnForecastHour(item)
-                }
-            }
-        }
+
 
        /* Row(modifier = Modifier.fillMaxWidth()) {
             Image(
@@ -168,7 +170,8 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
 fun ColumnForecastHour(item: WeatherDay){
     val textColor = Color(255,255,255,200)
     Column(horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 8.dp)) {
+           modifier = Modifier.padding(horizontal = 8.dp)
+        ) {
         Text(modifier = Modifier.padding(vertical = 8.dp),
             text = item.getTime(),
             color = textColor,
