@@ -127,6 +127,7 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
 
 
         LazyRow(modifier = Modifier
+            .height(150.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -186,7 +187,7 @@ fun ColumnForecastHour(item: WeatherDay){
         Text(modifier = Modifier.padding(vertical = 8.dp),
             text = item.getTempWithDegree(),
             color = textColor,
-            fontSize = 13.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Bold
         )
 
