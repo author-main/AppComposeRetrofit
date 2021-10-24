@@ -161,7 +161,7 @@ fun RowOfDay(item: WeatherDay, index: Int){
             Text(
                 modifier = Modifier.wrapContentSize(),
                 color = Color.LightGray,
-                fontSize = 13.sp,
+                fontSize = 12.sp,
                 text = item.getDate()
             )
             Text(

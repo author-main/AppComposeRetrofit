@@ -95,7 +95,7 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     private var timestamp: Long = 0
 
     fun getDate(): String {
-        val pattern = "dd MMMM HH:mm"
+        val pattern = "dd MMMM"// HH:mm"
         val dateFormat: DateFormat = SimpleDateFormat(pattern, Locale.getDefault())
         return dateFormat.format(timestamp * 1000)
     }

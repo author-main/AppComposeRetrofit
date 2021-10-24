@@ -84,19 +84,19 @@ class Repository {
                         var segment = -1
                         for (i in 0..7) {
                             val range = i * 3 * 60 .. (i + 1) * 3 * 60
-                            val half = i * 3 * 60 + 90
+                           // val half = i * 3 * 60 + 90
                             if (time in range) {
-                                if (time < half) {
+                              /*  if (time < half) {
                                     segment = i * 3
                                     break
                                 }
-                                else {
+                                else {*/
                                     segment = if (i + 1 == 8)
                                                 0
                                               else
                                                 (i + 1) * 3
                                     break;
-                                }
+                                //}
                             }
                         }
 
@@ -104,69 +104,14 @@ class Repository {
                             val list = mutableListOf<WeatherDay>()
                             for (i in items.indices){
                                val itemHour = getHour(items[i].getTimeStamp())
-                                //log("itemhour = $itemHour segment = $segment")
                                 if (itemHour == segment) {
                                     list.add(items[i])
-                                    log("hour = $itemHour")
                                 }
                             }
                             val forecast = WeatherForecast()
                             forecast.setItems(list)
                             forecastWeek.postValue(forecast)
-
-
                         }
-
-
-//                        log("segment = $segment")
-                      /*  data?.getItems()?.let{items ->
-                            val list = mutableListOf<WeatherDay>()
-                            list.add(items[0])
-                            var day = getDay(items[0].getTimeStamp())
-                            for (i in items.indices)
-                                if (getDay(items[i].getTimeStamp()) != day) {
-                                    day = getDay(items[i].getTimeStamp())
-                                    list.add(items[i])
-                                }
-
-                            list.forEach {item ->
-                               day = getDay(item.getTimeStamp())
-                               var start = -1
-                                var last = false
-                               for (i in items.indices){
-                                   val matched = getDay(items[i].getTimeStamp()) == day
-                                   if (matched && start == -1)
-                                       start = i
-
-                                   if (matched && start != -1 && i == items.size - 1)
-                                       last = true
-
-
-                                   if ((!matched && start != -1) || last){
-                                       val index = if (last)
-                                                        items.size - 1
-                                                    else
-                                                        i - 1
-                                       val min = getMin(items, start, index)
-                                       val max = getMax(items, start, index)
-                                       item.setTempMax(max)
-                                       item.setTempMin(min)
-                                       break
-                                   }
-                               }
-
-                            }
-
-
-
-
-
-                            val forecast = WeatherForecast()
-                            forecast.setItems(list)
-                            forecastWeek.postValue(forecast)
-                        }*/
-                        //forecastWeek.postValue(data)
-
                     }
                 }
             }
