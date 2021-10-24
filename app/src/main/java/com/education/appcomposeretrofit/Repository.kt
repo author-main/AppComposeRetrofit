@@ -49,7 +49,11 @@ class Repository {
         callForecast?.enqueue(object: Callback<WeatherForecast>{
             override fun onResponse(call: Call<WeatherForecast>?, response: Response<WeatherForecast>?) {
                 val calendar = Calendar.getInstance()
-              /*  fun getDay(timestamp: Long): Int{
+                fun getHour(timestamp: Long): Int{
+                    calendar.timeInMillis = timestamp * 1000
+                    return calendar.get(Calendar.HOUR_OF_DAY)
+                }
+                /*fun getDay(timestamp: Long): Int{
                     calendar.timeInMillis = timestamp * 1000
                     return calendar.get(Calendar.DAY_OF_MONTH)
                 }
@@ -74,16 +78,47 @@ class Repository {
                 response?.let{ it ->
                     if (it.isSuccessful) {
                         val data = it.body()
-                        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-                        val minute  = calendar.get(Calendar.MINUTE)
+                        val hour = 10//calendar.get(Calendar.HOUR_OF_DAY)
+                        val minute  = 29//calendar.get(Calendar.MINUTE)
                         val time = hour * 60 + minute
-                        for (i in 1..8) {
-                            val endHour = i * 3 * 60
-                            log ("hour $endHour -> time $time")
+                        var segment = -1
+                        for (i in 0..7) {
+                            val range = i * 3 * 60 .. (i + 1) * 3 * 60
+                            val half = i * 3 * 60 + 90
+                            if (time in range) {
+                                if (time < half) {
+                                    segment = i * 3
+                                    break
+                                }
+                                else {
+                                    segment = if (i + 1 == 8)
+                                                0
+                                              else
+                                                (i + 1) * 3
+                                    break;
+                                }
+                            }
+                        }
+
+                        data?.getItems()?.let { items ->
+                            val list = mutableListOf<WeatherDay>()
+                            for (i in items.indices){
+                               val itemHour = getHour(items[i].getTimeStamp())
+                                //log("itemhour = $itemHour segment = $segment")
+                                if (itemHour == segment) {
+                                    list.add(items[i])
+                                    log("hour = $itemHour")
+                                }
+                            }
+                            val forecast = WeatherForecast()
+                            forecast.setItems(list)
+                            forecastWeek.postValue(forecast)
+
 
                         }
 
-                        log("$hour:$minute")
+
+//                        log("segment = $segment")
                       /*  data?.getItems()?.let{items ->
                             val list = mutableListOf<WeatherDay>()
                             list.add(items[0])
@@ -130,7 +165,8 @@ class Repository {
                             forecast.setItems(list)
                             forecastWeek.postValue(forecast)
                         }*/
-                        forecastWeek.postValue(data)
+                        //forecastWeek.postValue(data)
+
                     }
                 }
             }
