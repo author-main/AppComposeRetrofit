@@ -145,9 +145,7 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
                 }
                 dataHour.getItems()?.let { itemsHour ->
                     items(itemsHour) { item ->
-
                         ColumnForecastHour(item)
-
                     }
                 }
             }
