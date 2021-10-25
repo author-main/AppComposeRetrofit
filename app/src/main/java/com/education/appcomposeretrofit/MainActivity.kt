@@ -128,15 +128,16 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
 
             LazyRow(
                 modifier = Modifier
+                    .
                     // .height(150.dp)
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = 16.dp)
             ) {
                 item {
                     Column(
                         modifier = Modifier
-                            .padding(end = 32.dp)
+                            .padding(end = 32.dp),
+                        verticalArrangement = Arrangement.SpaceBetween,
                     ) {
                         RowWPH(index = 0, data = data)
                         RowWPH(index = 1, data = data)
