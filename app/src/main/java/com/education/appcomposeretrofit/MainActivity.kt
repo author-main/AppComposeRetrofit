@@ -133,6 +133,9 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
 @Composable
 fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
     val listState = rememberLazyListState()
+    var indexVisible = remember {
+        0
+    }
     LazyRow( modifier = Modifier
         .height(150.dp)
         .fillMaxWidth()
@@ -171,14 +174,20 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
                 }
 
             }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                listState.scrollToItem(indexVisible)
+            }
+
             itemsIndexed(itemsHour) { index, item ->
+                indexVisible = index
+                log("visibleItem $indexVisible")
                 if (index <= indexLast)
                     ColumnForecastHour(item, index)
             }
 
-            CoroutineScope(Dispatchers.Main).launch {
-                listState.scrollToItem(itemsHour.size-1)
-            }
+
+
         }
     }
 }
