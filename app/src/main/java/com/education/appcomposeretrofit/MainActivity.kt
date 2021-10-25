@@ -69,11 +69,19 @@ fun Screen(viewModel: WeatherViewModel){
         .forecastWeekMore
         .observeAsState(WeatherForecast())
 
-    Column(modifier = Modifier
-        .fillMaxSize()) {
+   /* val isRefreshing by viewModel.isRefreshing.collectAsState()
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing),
+        onRefresh = { viewModel.updateForecast() }
+    ) {*/
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
             Today(dataToday, dataWeekMore)
             DaysOfWeek(dataWeek.getItems())
         }
+   // }
 }
 
 @Composable

@@ -25,6 +25,10 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
 
 
     init{
+        updateForecast()
+    }
+
+    fun updateForecast(){
         repository.updateForecast()
     }
 
