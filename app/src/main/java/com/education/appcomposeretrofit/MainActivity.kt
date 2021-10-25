@@ -4,15 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -25,6 +19,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +29,10 @@ import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherDay
 import com.education.appcomposeretrofit.weather.WeatherForecast
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     private val viewModel: WeatherViewModel by viewModels(factoryProducer = {
@@ -124,55 +123,102 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
             color = Color(255,255,255,200),
             text = "${stringResource(R.string.feel_like)}${data.getFeelLike()}",
         )
+        HourLazyRow(data, dataHour)
 
-
-            LazyRow(
-                modifier = Modifier
-                    .
-                    // .height(150.dp)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                item {
-                    Column(
-                        modifier = Modifier
-                            .padding(end = 32.dp),
-                        verticalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        RowWPH(index = 0, data = data)
-                        RowWPH(index = 1, data = data)
-                        RowWPH(index = 2, data = data)
-                    }
-                }
-                dataHour.getItems()?.let { itemsHour ->
-                    items(itemsHour) { item ->
-                        ColumnForecastHour(item)
-                    }
-                }
-            }
-
-
-       /* Row(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painterResource(R.drawable.ic_wind),
-                alpha = 0.7f,
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.wrapContentSize()
-            )
-        }*/
     }
 
 }
 
+
 @Composable
-fun ColumnForecastHour(item: WeatherDay){
+fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
+    val listState = rememberLazyListState()
+    var indexVisible = remember {
+        0
+    }
+    LazyRow( modifier = Modifier
+        .height(150.dp)
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp),
+        state = listState,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        item {
+            Column(
+                modifier = Modifier
+                    .padding(end = 32.dp)
+                    .height(150.dp),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                RowWPH(index = 0, data = dataDay)
+                RowWPH(index = 1, data = dataDay)
+                RowWPH(index = 2, data = dataDay)
+            }
+        }
+        dataHour.getItems()?.let { itemsHour ->
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = itemsHour[0].getTimeStamp() * 1000
+            var day = calendar.get(Calendar.DAY_OF_MONTH)
+            var count = 0
+            var indexLast = 0
+            for (i in itemsHour.indices){
+                calendar.timeInMillis = itemsHour[i].getTimeStamp() * 1000
+                val itemDay = calendar.get(Calendar.DAY_OF_MONTH)
+                if (day != itemDay) {
+                    day = itemDay
+                    count++
+                    if (count > 2) {
+                        indexLast = i - 1
+                        break
+                    }
+                }
+
+            }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                listState.scrollToItem(indexVisible)
+            }
+            itemsIndexed(itemsHour) { index, item ->
+                indexVisible = index
+                log("visibleItem $indexVisible")
+                if (index <= indexLast)
+                    ColumnForecastHour(item, index)
+            }
+
+
+
+        }
+    }
+}
+
+
+@Composable
+fun ColumnForecastHour(item: WeatherDay, index: Int){
     val textColor = Color(255,255,255,200)
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = item.getTimeStamp() * 1000
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
     Column(horizontalAlignment = Alignment.CenterHorizontally,
            modifier = Modifier.padding(horizontal = 8.dp)
         ) {
-        Text(modifier = Modifier.padding(vertical = 8.dp),
+        Text(
             text = item.getTime(),
+            color = textColor,
+            fontSize = 13.sp
+        )
+        val textDay = if (index == 0) {
+                        stringResource(id = R.string.now)
+                      }
+                      else {
+                        if (hour == 0) {
+                            item.getDate(short = true)
+                        }
+                        else
+                            ""
+                      }
+        Text(
+            modifier = Modifier.offset(y = (-4).dp),
+            text = textDay,
             color = textColor,
             fontSize = 13.sp
         )
@@ -182,17 +228,15 @@ fun ColumnForecastHour(item: WeatherDay){
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .width(30.dp)
-                .height(30.dp)
-
+                .width(40.dp)
+                .height(40.dp)
         )
-        Text(modifier = Modifier.padding(vertical = 8.dp),
+        Text(
             text = item.getTempWithDegree(),
             color = textColor,
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold
         )
-
     }
 }
 
@@ -203,7 +247,6 @@ fun RowWPH(index: Int, data: WeatherDay?){
         R.drawable.ic_pressure,
         R.drawable.ic_humidity,
     )
-
     val value = data?.let {
         when (index) {
             0 -> {
@@ -219,9 +262,7 @@ fun RowWPH(index: Int, data: WeatherDay?){
         }
     }
     if (!value.isNullOrBlank()){
-        Row(modifier = Modifier
-            .padding(vertical = 8.dp)
-            .wrapContentSize(),
+        Row(
             verticalAlignment = Alignment.CenterVertically
             ){
             Image(
@@ -251,28 +292,35 @@ fun DaysOfWeek(data: List<WeatherDay>?){
             .fillMaxSize()
             .padding(16.dp)
         ) {
-                itemsIndexed(items) { index, item, -> RowOfDay(item, index)
+                itemsIndexed(items) { index, item, -> RowOfDay(item)
                 if (index < items.size-1)
-                    Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .2f))
+                    Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .1f))
           }
-
         }
     }
 }
 
 @Composable
-fun RowOfDay(item: WeatherDay, index: Int){
-    val dayWeek = arrayOf("сегодня", "завтра")
+fun RowOfDay(item: WeatherDay){
+    val dayWeek = stringArrayResource(id = R.array.days)
     val color = if (item.isWeekend())
             Color.Red
         else
             Color.DarkGray
-    val textDayWeek = if (index > 1)
-            item.getDayWeek()
+    val calendar = Calendar.getInstance()
+    val now = calendar.get(Calendar.DAY_OF_MONTH)
+    calendar.add(Calendar.DATE, 1)
+    val nextday = calendar.get(Calendar.DAY_OF_MONTH)
+    calendar.timeInMillis = item.getTimeStamp() * 1000
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    val textDayWeek = if (now == day)
+        dayWeek[0]
+    else {
+        if (day == nextday)
+            dayWeek[1]
         else
-            dayWeek[index]
-
-
+            item.getDayWeek()
+    }
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp),
@@ -325,15 +373,5 @@ fun RowOfDay(item: WeatherDay, index: Int){
                 text = item.getFeelLike()
             )
         }
-
     }
-
 }
-
-/*@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    AppComposeRetrofitTheme {
-        Greeting("Android")
-    }
-}*/
