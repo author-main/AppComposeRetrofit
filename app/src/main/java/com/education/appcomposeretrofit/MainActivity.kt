@@ -4,15 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -127,9 +121,7 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
             text = "${stringResource(R.string.feel_like)}${data.getFeelLike()}",
         )
 
-
-            LazyRow(
-                modifier = Modifier
+       LazyRow( modifier = Modifier
                     .height(150.dp)
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
@@ -200,14 +192,12 @@ fun ColumnForecastHour(item: WeatherDay, index: Int){
                         else
                             ""
                       }
-
-            Text(
-                modifier = Modifier.offset(y = (-4).dp),
-                text = textDay,
-                color = textColor,
-                fontSize = 13.sp
-            )
-
+        Text(
+            modifier = Modifier.offset(y = (-4).dp),
+            text = textDay,
+            color = textColor,
+            fontSize = 13.sp
+        )
         GlideImage(
             imageModel = item.getIconUrl(),
             contentDescription = null,
@@ -216,7 +206,6 @@ fun ColumnForecastHour(item: WeatherDay, index: Int){
                 .padding(vertical = 8.dp)
                 .width(40.dp)
                 .height(40.dp)
-
         )
         Text(
             text = item.getTempWithDegree(),
@@ -224,7 +213,6 @@ fun ColumnForecastHour(item: WeatherDay, index: Int){
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold
         )
-
     }
 }
 
@@ -235,7 +223,6 @@ fun RowWPH(index: Int, data: WeatherDay?){
         R.drawable.ic_pressure,
         R.drawable.ic_humidity,
     )
-
     val value = data?.let {
         when (index) {
             0 -> {
@@ -283,9 +270,8 @@ fun DaysOfWeek(data: List<WeatherDay>?){
         ) {
                 itemsIndexed(items) { index, item, -> RowOfDay(item)
                 if (index < items.size-1)
-                    Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .2f))
+                    Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .1f))
           }
-
         }
     }
 }
@@ -311,9 +297,6 @@ fun RowOfDay(item: WeatherDay){
         else
             item.getDayWeek()
     }
-
-
-
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp),
@@ -366,7 +349,5 @@ fun RowOfDay(item: WeatherDay){
                 text = item.getFeelLike()
             )
         }
-
     }
-
 }
