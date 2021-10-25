@@ -306,8 +306,6 @@ fun RowWPH(index: Int, data: WeatherDay?){
                 text = value
             )
             data.let {
-               // log("degree ${data.getWindDeg().toFloat()}")
-                //degree.coerceIn()
                 if (index == 0) {
                     Image(
                         painterResource(R.drawable.ic_arrow),
