@@ -145,6 +145,7 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
         state = listState,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (indexVisible !=0)
         CoroutineScope(Dispatchers.Main).launch {
             listState.scrollToItem(indexVisible)
         }
