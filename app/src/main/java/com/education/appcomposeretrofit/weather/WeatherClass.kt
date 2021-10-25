@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 //key weather dc2e12a90c095c2ef1f98c5ef4b613e5
 /************* JSON ответ сервера ************
@@ -98,7 +99,7 @@ class WeatherDay{
     private var timestamp: Long = 0
 
     fun getWindSpeed() = wind?.speed?.toString() ?: ""
-    fun getWindDeg(): Int = wind?.deg ?: 0
+    fun getWindDeg() = wind?.deg ?: 0
 
 
     fun getDate(short: Boolean = false): String {
@@ -133,7 +134,13 @@ class WeatherDay{
 
     fun getTimeStamp() = timestamp
 
-    fun getPressure() = temp?.pressure?.toString() ?: ""
+    fun getPressure(): String {
+        return temp?.pressure?.let{
+            (it * 0.750063755419211).roundToInt().toString()
+        } ?: ""
+    }
+
+
 
     fun getHumidity() = temp?.humidity?.toString() ?: ""
 
