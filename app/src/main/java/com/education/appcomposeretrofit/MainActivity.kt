@@ -29,6 +29,9 @@ import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherDay
 import com.education.appcomposeretrofit.weather.WeatherForecast
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivity : ComponentActivity() {
@@ -120,53 +123,66 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
             color = Color(255,255,255,200),
             text = "${stringResource(R.string.feel_like)}${data.getFeelLike()}",
         )
+        HourLazyRow(data, dataHour)
 
-       LazyRow( modifier = Modifier
-                    .height(150.dp)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                item {
-                    Column(
-                        modifier = Modifier
-                            .padding(end = 32.dp)
-                            .height(150.dp),
-                        verticalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        RowWPH(index = 0, data = data)
-                        RowWPH(index = 1, data = data)
-                        RowWPH(index = 2, data = data)
-                    }
-                }
-                dataHour.getItems()?.let { itemsHour ->
-                    val calendar = Calendar.getInstance()
-                    calendar.timeInMillis = itemsHour[0].getTimeStamp() * 1000
-                    var day = calendar.get(Calendar.DAY_OF_MONTH)
-                    var count = 0
-                    var indexLast = 0
-                    for (i in itemsHour.indices){
-                        calendar.timeInMillis = itemsHour[i].getTimeStamp() * 1000
-                        val itemDay = calendar.get(Calendar.DAY_OF_MONTH)
-                        if (day != itemDay) {
-                            day = itemDay
-                            count++
-                            if (count > 2) {
-                                indexLast = i - 1
-                                break
-                            }
-                        }
-
-                    }
-                    itemsIndexed(itemsHour) { index, item ->
-                        if (index <= indexLast)
-                            ColumnForecastHour(item, index)
-                    }
-                }
-            }
     }
 
 }
+
+
+@Composable
+fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
+    val listState = rememberLazyListState()
+    LazyRow( modifier = Modifier
+        .height(150.dp)
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp),
+        state = listState,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        item {
+            Column(
+                modifier = Modifier
+                    .padding(end = 32.dp)
+                    .height(150.dp),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                RowWPH(index = 0, data = dataDay)
+                RowWPH(index = 1, data = dataDay)
+                RowWPH(index = 2, data = dataDay)
+            }
+        }
+        dataHour.getItems()?.let { itemsHour ->
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = itemsHour[0].getTimeStamp() * 1000
+            var day = calendar.get(Calendar.DAY_OF_MONTH)
+            var count = 0
+            var indexLast = 0
+            for (i in itemsHour.indices){
+                calendar.timeInMillis = itemsHour[i].getTimeStamp() * 1000
+                val itemDay = calendar.get(Calendar.DAY_OF_MONTH)
+                if (day != itemDay) {
+                    day = itemDay
+                    count++
+                    if (count > 2) {
+                        indexLast = i - 1
+                        break
+                    }
+                }
+
+            }
+            itemsIndexed(itemsHour) { index, item ->
+                if (index <= indexLast)
+                    ColumnForecastHour(item, index)
+            }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                listState.scrollToItem(itemsHour.size-1)
+            }
+        }
+    }
+}
+
 
 @Composable
 fun ColumnForecastHour(item: WeatherDay, index: Int){
