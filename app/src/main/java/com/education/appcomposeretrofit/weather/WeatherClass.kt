@@ -61,7 +61,7 @@ http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=dc2e12a90c095c2
 
  */
 
-class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDescription>) {
+class WeatherDay{
     private val calendar = Calendar.getInstance()
     private val sourceIconUrl = "http://openweathermap.org/img/w/"
 
@@ -71,37 +71,29 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     }
 
     class WeatherTemp {
-        // свойства объекта "main"
         var temp: Double? = null
-        var temp_min: Double? = null
-        var temp_max: Double? = null
         var feels_like: Double? = null
         var pressure: Int? = null
         var humidity: Int? = null
     }
 
     class WeatherDescription{
-        // свойство объекта "weather"
         var description: String? = null
         var icon: String? = null
     }
 
-    // значения объекта "main" будут сохранены в классе WeatherTemp
     @SerializedName("main")
     private var temp: WeatherTemp? = null
 
     @SerializedName("wind")
     private var wind: WeatherWind? = null
 
-    // значения объекта "weather" будут сохранены в классе WeatherDescription (список icon)
     @SerializedName("weather")
     private var description: List<WeatherDescription>? = null
 
-    // свойство "name"
     @SerializedName("name")
     private var city: String? = null
 
-    // свойство "dt"
     @SerializedName("dt")
     private var timestamp: Long = 0
 
@@ -109,8 +101,11 @@ class WeatherDay{//(weatherTemp: WeatherTemp, weatherDescription: List<WeatherDe
     fun getWindDeg() = wind?.deg?.toString() ?: ""
 
 
-    fun getDate(): String {
-        val pattern = "dd MMMM"// HH:mm"
+    fun getDate(short: Boolean = false): String {
+        val pattern = if (short)
+                            "dd MMM"
+                        else
+                            "dd MMMM"
         val dateFormat: DateFormat = SimpleDateFormat(pattern, Locale.getDefault())
         return dateFormat.format(timestamp * 1000)
     }

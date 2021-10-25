@@ -3,6 +3,9 @@
     <string name="feel_like">"Ощущается как:\u0020"</string>
     <string name="pressure">"мм рт.ст."</string>
     <string name="speed">"м/с"</string>
-
-
+    <string name="now">"сейчас"</string>
+    <string-array name="days">
+        <item>"сегодня"</item>
+        <item>"завтра"</item>
+    </string-array>>
 </resources>
