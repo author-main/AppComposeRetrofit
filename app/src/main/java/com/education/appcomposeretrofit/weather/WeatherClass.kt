@@ -98,7 +98,7 @@ class WeatherDay{
     private var timestamp: Long = 0
 
     fun getWindSpeed() = wind?.speed?.toString() ?: ""
-    fun getWindDeg() = wind?.deg?.toString() ?: ""
+    fun getWindDeg(): Int = wind?.deg ?: 0
 
 
     fun getDate(short: Boolean = false): String {

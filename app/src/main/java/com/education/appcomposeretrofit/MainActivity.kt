@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -15,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -255,9 +257,25 @@ fun RowWPH(index: Int, data: WeatherDay?){
         R.drawable.ic_humidity,
     )
     val value = data?.let {
+
+        var arrayDirection = arrayOf<Array<Float>>()
+        for (i in 0..15) {
+            val array = arrayOf<Float>(i * 22.5f, (i + 1) * 22.5f)
+            arrayDirection += array
+        }
+
+        val degree = data.getWindDeg().toFloat()
+        var indexDirection = ""
+        for (i in 0..15) {
+            if (degree >= arrayDirection[i][0] && degree < arrayDirection[i][1]) {
+                indexDirection = stringArrayResource(id = R.array.direction)[i]
+                break
+            }
+        }
+
         when (index) {
             0 -> {
-                "${data.getWindSpeed()} ${stringResource(R.string.speed)}, ${data.getWindDeg()}\u00b0"
+                "${data.getWindSpeed()} ${stringResource(R.string.speed)}, $indexDirection"//, ${data.getWindDeg()}\u00b0"
             }
             1 -> {
                 "${data.getPressure()} ${stringResource(R.string.pressure)}"
@@ -287,6 +305,20 @@ fun RowWPH(index: Int, data: WeatherDay?){
                 fontSize = 13.sp,
                 text = value
             )
+            data.let {
+               // log("degree ${data.getWindDeg().toFloat()}")
+                //degree.coerceIn()
+                if (index == 0) {
+                    Image(
+                        painterResource(R.drawable.ic_arrow),
+                        alpha = 0.7f,
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .rotate(data.getWindDeg().toFloat())
+                    )
+                }
+            }
 
         }
     }

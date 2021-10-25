@@ -8,4 +8,22 @@
         <item>"сегодня"</item>
         <item>"завтра"</item>
     </string-array>>
+    <string-array name="direction">
+        <item>"С"</item>
+        <item>"ССВ"</item>
+        <item>"СВ"</item>
+        <item>"ВСВ"</item>
+        <item>"В"</item>
+        <item>"ВЮВ"</item>
+        <item>"ЮВ"</item>
+        <item>"ЮЮВ"</item>
+        <item>"Ю"</item>
+        <item>"ЮЮЗ"</item>
+        <item>"ЮЗ"</item>
+        <item>"ЗЮЗ"</item>
+        <item>"З"</item>
+        <item>"ЗСЗ"</item>
+        <item>"СЗ"</item>
+        <item>"ССЗ"</item>
+    </string-array>>
 </resources>
