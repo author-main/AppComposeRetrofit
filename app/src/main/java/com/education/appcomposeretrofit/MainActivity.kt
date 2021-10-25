@@ -178,7 +178,6 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
             CoroutineScope(Dispatchers.Main).launch {
                 listState.scrollToItem(indexVisible)
             }
-
             itemsIndexed(itemsHour) { index, item ->
                 indexVisible = index
                 log("visibleItem $indexVisible")
