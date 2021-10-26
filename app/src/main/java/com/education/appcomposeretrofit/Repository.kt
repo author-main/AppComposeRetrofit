@@ -108,6 +108,7 @@ class Repository {
                             val list = mutableListOf<WeatherDay>()
                             for (i in items.indices){
                                val itemHour = getHour(items[i].getTimeStamp())
+                                //log("itemhour $itemHour, segment $segment")
                                 if (itemHour == segment) {
                                     list.add(items[i])
                                 }
