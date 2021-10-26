@@ -12,9 +12,6 @@ import kotlin.math.roundToInt
 
 class Repository {
 
-    /*private var lat = 48.192638
-    private var lon = 41.283229*/
-
     private var lat = 0.00
     private var lon = 0.00
 
