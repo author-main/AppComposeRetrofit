@@ -1,3 +1,18 @@
+/*
+ * Реализовано на примере статьи
+ * https://www.proft.me/2017/05/5/poluchenie-prognoza-pogody-android-retrofit/
+ * Приложение разработано в процессе обучения основным принципам
+ * реализации Retrofit и Jetpack Compose.
+ * Буду признателен за любые комментарии к ошибкам или советам по оптимизации кода.
+ * ОБРАТИТЕ ВНИМАНИЕ, если вы используете для отладки эмулятор Android Genymotion,
+ * необходимо установить вручную широту и долготу в классе Repository
+ * private var lat = ваша широта
+ * private var lon = ваша долгота
+ * т.к. Genymotion не поддерживает геолокацию.
+ * Также, по возможности, получите свой ключ на https://openweathermap.org
+ * и измените в классе WeatherApi значение ключа
+ * const val key = "dc2e12a90c095c2ef1f98c5ef4b613e5" на собственное.
+ */
 package com.education.appcomposeretrofit
 import androidx.activity.result.contract.ActivityResultContracts
 import android.Manifest
@@ -78,16 +93,6 @@ class MainActivity : ComponentActivity() {
             stateConfig = Configuration.ORIENTATION_PORTRAIT
         }
     }
-
-
-   /* @Composable
-    fun ShowConfig() {
-        val state = remember {
-            stateConfig.toString()
-        }
-        Text(text = state)
-    }*/
-
 
     private fun toast(text: String){
         val spannable: Spannable =  SpannableString(text)

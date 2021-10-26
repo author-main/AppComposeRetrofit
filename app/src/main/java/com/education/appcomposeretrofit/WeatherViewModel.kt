@@ -34,11 +34,6 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
         repository.setLocation(lan, lon)
     }
 
-
-   /* init{
-        updateForecast()
-    }*/
-
     fun updateForecast(){
          repository.updateForecast()
      }

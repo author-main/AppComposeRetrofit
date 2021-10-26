@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
-//key weather dc2e12a90c095c2ef1f98c5ef4b613e5
 /************* JSON ответ сервера ************
 
 @SerializedName("name"), name - ключ JSON, связывание переменной класса с переменной JSON
