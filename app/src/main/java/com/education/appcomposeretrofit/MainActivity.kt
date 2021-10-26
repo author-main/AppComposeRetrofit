@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherDay
 import com.education.appcomposeretrofit.weather.WeatherForecast
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,11 +71,11 @@ fun Screen(viewModel: WeatherViewModel){
         .forecastWeekMore
         .observeAsState(WeatherForecast())
 
-   /* val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val isRefreshing by viewModel.isRefreshing.observeAsState(false)
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing),
         onRefresh = { viewModel.updateForecast() }
-    ) {*/
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -81,7 +83,7 @@ fun Screen(viewModel: WeatherViewModel){
             Today(dataToday, dataWeekMore)
             DaysOfWeek(dataWeek.getItems())
         }
-   // }
+    }
 }
 
 @Composable
@@ -95,7 +97,9 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
                     MaterialTheme.colors.primary
                 )
             )
+
         )
+        .verticalScroll(ScrollState(0))
         .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(modifier = Modifier

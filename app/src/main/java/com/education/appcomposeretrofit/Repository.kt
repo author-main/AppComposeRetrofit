@@ -27,9 +27,15 @@ class Repository {
         MutableLiveData<WeatherForecast>()
     }
 
+    private val _isRefreshing = MutableLiveData(false)
+
     private val forecastWeekMore: MutableLiveData<WeatherForecast> by lazy {
         MutableLiveData<WeatherForecast>()
     }
+
+
+    fun isRefreshing() =
+        _isRefreshing
 
     fun getDataToday(): MutableLiveData<WeatherDay> =
         forecastToday
@@ -48,6 +54,7 @@ class Repository {
                 response?.let{
                     if (it.isSuccessful)
                         forecastToday.postValue(it.body())
+
                 }
             }
 
@@ -105,17 +112,20 @@ class Repository {
                             val forecast = WeatherForecast()
                             forecast.setItems(list)
                             forecastWeek.postValue(forecast)
+                            _isRefreshing.value = false
                         }
                     }
                 }
             }
             override fun onFailure(call: Call<WeatherForecast>?, t: Throwable?) {
                 log("${t?.message}")
+                _isRefreshing.value = false
             }
         })
     }
 
     fun updateForecast(){
+        _isRefreshing.value = true
         getForecastToday()
         getForecastWeek()
     }

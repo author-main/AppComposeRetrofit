@@ -3,6 +3,7 @@ package com.education.appcomposeretrofit
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.education.appcomposeretrofit.weather.WeatherDay
@@ -11,6 +12,12 @@ import kotlinx.coroutines.*
 import java.net.URL
 
 class WeatherViewModel(private val repository: Repository) : ViewModel(){
+
+    val isRefreshing: LiveData<Boolean>  by lazy {
+        repository.isRefreshing()
+    }
+
+
     val forecastToday: LiveData<WeatherDay> by lazy {
         repository.getDataToday()
     }
@@ -29,8 +36,8 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
     }
 
     fun updateForecast(){
-        repository.updateForecast()
-    }
+         repository.updateForecast()
+     }
 
     /*class ImageLoader(builder: Builder){
         private val image: Bitmap? = null
