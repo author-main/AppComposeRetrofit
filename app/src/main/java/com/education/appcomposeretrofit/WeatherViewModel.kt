@@ -30,10 +30,14 @@ class WeatherViewModel(private val repository: Repository) : ViewModel(){
         repository.getDataWeekMore()
     }
 
-
-    init{
-        updateForecast()
+    fun setLocation(lan: Double, lon: Double) {
+        repository.setLocation(lan, lon)
     }
+
+
+   /* init{
+        updateForecast()
+    }*/
 
     fun updateForecast(){
          repository.updateForecast()

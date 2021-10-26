@@ -4,6 +4,8 @@
     <string name="pressure">"мм рт.ст."</string>
     <string name="speed">"м/с"</string>
     <string name="now">"сейчас"</string>
+    <string name="grant_location">"Вам необходимо предоставить разрешение на доступ к местоположению"</string>
+    <string name="error_location">"Не удалось получить текущее местоположение"</string>
     <string-array name="days">
         <item>"сегодня"</item>
         <item>"завтра"</item>

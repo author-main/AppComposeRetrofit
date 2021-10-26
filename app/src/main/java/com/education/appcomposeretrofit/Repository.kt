@@ -16,8 +16,19 @@ class Repository {
      *  lat - широта
      *  lon - долгота
      */
-    private val lat = 48.192638
-    private val lon = 41.283229
+    /*private val lat = 48.192638
+    private val lon = 41.283229*/
+
+    private var lat = 0.00
+    private var lon = 0.00
+
+    fun setLocation(lat: Double, lon: Double){
+        if (this.lat != lat || this.lon != lon ) {
+            this.lat = lat
+            this.lon = lon
+            updateForecast()
+        }
+    }
 
     private val apiInterface: WeatherApi.ApiInterface? = WeatherApi.getRetrofitApi()
     private val forecastToday: MutableLiveData<WeatherDay> by lazy {
@@ -125,6 +136,8 @@ class Repository {
     }
 
     fun updateForecast(){
+        if (lat == 0.00 && lon == 0.00)
+            return
         _isRefreshing.value = true
         getForecastToday()
         getForecastWeek()

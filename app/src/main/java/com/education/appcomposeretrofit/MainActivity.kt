@@ -1,10 +1,16 @@
 package com.education.appcomposeretrofit
-
+import androidx.activity.result.contract.ActivityResultContracts
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Layout
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.AlignmentSpan
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -27,11 +33,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.education.appcomposeretrofit.ui.theme.AppComposeRetrofitTheme
 import com.education.appcomposeretrofit.weather.WeatherDay
 import com.education.appcomposeretrofit.weather.WeatherForecast
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +49,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivity : ComponentActivity() {
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: WeatherViewModel by viewModels(factoryProducer = {
         FactoryViewModel(
             this,
@@ -47,11 +58,60 @@ class MainActivity : ComponentActivity() {
     })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        permissionSetup()
         setContent {
             AppComposeRetrofitTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     Screen(viewModel)
                 }
+            }
+        }
+    }
+
+    private fun toast(text: String){
+        val spannable: Spannable =  SpannableString(text)
+        spannable.setSpan(
+            AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+            0, text.length - 1,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        Toast.makeText(this, spannable, Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    private fun getLocation(){
+        try {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    location?.let {
+                        viewModel.setLocation(it.latitude, it.longitude)
+                    }
+                }
+                .addOnFailureListener {
+                    toast(resources.getText(R.string.error_location).toString())
+                }
+        } catch (ex: SecurityException) {
+            toast(resources.getText(R.string.grant_location).toString())
+        }
+    }
+
+
+    private fun permissionSetup() {
+        val permission = ContextCompat.checkSelfPermission(
+            baseContext, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            permissionsResultCallback.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            getLocation()
+        }
+    }
+
+    private val permissionsResultCallback = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()){
+        when (it) {
+            true -> { getLocation() }
+            false -> {
+                toast(resources.getText(R.string.grant_location).toString())
             }
         }
     }
@@ -74,7 +134,14 @@ fun Screen(viewModel: WeatherViewModel){
     val isRefreshing by viewModel.isRefreshing.observeAsState(false)
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing),
-        onRefresh = { viewModel.updateForecast() }
+        onRefresh = { viewModel.updateForecast() },
+        indicator = {state, dp ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = dp,
+                contentColor = Color(150,0,0)
+            )
+        }
     ) {
         Column(
             modifier = Modifier
@@ -193,21 +260,10 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
 
             }
 
-
-
-
             itemsIndexed(itemsHour) { index, item ->
-               // indexVisible = index
-               // log("visibleItem $indexVisible")
-                if (index <= indexLast) {
+                if (index <= indexLast)
                     ColumnForecastHour(item, index)
-                  //  indexVisible = listState.firstVisibleItemIndex
-                  //  log("visibleItem $indexVisible")
-                }
             }
-
-            /*indexVisible = listState.firstVisibleItemIndex
-            log("visibleItem $indexVisible")*/
 
         }
     }
