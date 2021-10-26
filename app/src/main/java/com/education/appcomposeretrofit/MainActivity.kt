@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
         spannable.setSpan(
             AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
             0, text.length - 1,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         Toast.makeText(this, spannable, Toast.LENGTH_SHORT).show()
         finish()
     }
