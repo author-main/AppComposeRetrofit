@@ -217,6 +217,7 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
     val indexVisible = remember {
         listState.firstVisibleItemIndex
     }
+
     LazyRow( modifier = Modifier
         .height(150.dp)
         .fillMaxWidth()
@@ -224,8 +225,10 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
         state = listState,
         verticalAlignment = Alignment.CenterVertically
     ) {
+      //  log("indexVisible $indexVisible")
         if (indexVisible !=0)
         CoroutineScope(Dispatchers.Main).launch {
+        //    log("sctollTo $indexVisible")
             listState.scrollToItem(indexVisible)
         }
         item {
