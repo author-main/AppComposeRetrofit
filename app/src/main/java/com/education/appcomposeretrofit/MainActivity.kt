@@ -214,8 +214,8 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
 @Composable
 fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
     val listState = rememberLazyListState(0)
-    val indexVisible = remember {
-        listState.firstVisibleItemIndex
+    var indexVisible = remember {
+        0//listState.firstVisibleItemIndex
     }
 
     LazyRow( modifier = Modifier
@@ -225,12 +225,12 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
         state = listState,
         verticalAlignment = Alignment.CenterVertically
     ) {
-      //  log("indexVisible $indexVisible")
-        if (indexVisible !=0)
+        indexVisible = listState.firstVisibleItemIndex
+       /* if (indexVisible !=0)
         CoroutineScope(Dispatchers.Main).launch {
-        //    log("sctollTo $indexVisible")
+            log("sctollTo $indexVisible")
             listState.scrollToItem(indexVisible)
-        }
+        }*/
         item {
             Column(
                 modifier = Modifier
