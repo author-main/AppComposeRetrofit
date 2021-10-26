@@ -2,6 +2,7 @@ package com.education.appcomposeretrofit
 import androidx.activity.result.contract.ActivityResultContracts
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Layout
 import android.text.Spannable
@@ -49,6 +50,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivity : ComponentActivity() {
+    private var stateConfig by mutableStateOf(Configuration.ORIENTATION_PORTRAIT)
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: WeatherViewModel by viewModels(factoryProducer = {
         FactoryViewModel(
@@ -62,11 +64,30 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppComposeRetrofitTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Screen(viewModel)
+                    Screen(viewModel, stateConfig)
                 }
             }
         }
     }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            stateConfig = Configuration.ORIENTATION_LANDSCAPE
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            stateConfig = Configuration.ORIENTATION_PORTRAIT
+        }
+    }
+
+
+   /* @Composable
+    fun ShowConfig() {
+        val state = remember {
+            stateConfig.toString()
+        }
+        Text(text = state)
+    }*/
+
 
     private fun toast(text: String){
         val spannable: Spannable =  SpannableString(text)
@@ -118,7 +139,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Screen(viewModel: WeatherViewModel){
+fun Screen(viewModel: WeatherViewModel, stateConfig: Int){
     val dataToday: WeatherDay by viewModel
         .forecastToday
         .observeAsState(WeatherDay())
@@ -147,14 +168,14 @@ fun Screen(viewModel: WeatherViewModel){
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Today(dataToday, dataWeekMore)
+            Today(dataToday, dataWeekMore, stateConfig)
             DaysOfWeek(dataWeek.getItems())
         }
     }
 }
 
 @Composable
-fun Today(data: WeatherDay, dataHour: WeatherForecast){
+fun Today(data: WeatherDay, dataHour: WeatherForecast, stateConfig: Int){
     Column(modifier = Modifier
         .fillMaxWidth()
         .background(
@@ -204,7 +225,7 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
             color = Color(255,255,255,200),
             text = "${stringResource(R.string.feel_like)}${data.getFeelLike()}",
         )
-        HourLazyRow(data, dataHour)
+        HourLazyRow(data, dataHour, stateConfig)
 
     }
 
@@ -212,10 +233,13 @@ fun Today(data: WeatherDay, dataHour: WeatherForecast){
 
 
 @Composable
-fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
+fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast, stateConfig: Int){
     val listState = rememberLazyListState(0)
     var indexVisible = remember {
-        0//listState.firstVisibleItemIndex
+        listState.firstVisibleItemIndex
+    }
+    val stateDevice = remember {
+        stateConfig
     }
 
     LazyRow( modifier = Modifier
@@ -226,11 +250,10 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast){
         verticalAlignment = Alignment.CenterVertically
     ) {
         indexVisible = listState.firstVisibleItemIndex
-       /* if (indexVisible !=0)
+        if (indexVisible != 0 && stateDevice != stateConfig)
         CoroutineScope(Dispatchers.Main).launch {
-            log("sctollTo $indexVisible")
             listState.scrollToItem(indexVisible)
-        }*/
+        }
         item {
             Column(
                 modifier = Modifier

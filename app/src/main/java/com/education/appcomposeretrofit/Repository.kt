@@ -16,11 +16,11 @@ class Repository {
      *  lat - широта
      *  lon - долгота
      */
-    /*private var lat = 48.192638
-    private var lon = 41.283229*/
+    private var lat = 48.192638
+    private var lon = 41.283229
 
-    private var lat = 0.00
-    private var lon = 0.00
+    /*private var lat = 0.00
+    private var lon = 0.00*/
 
     fun setLocation(lat: Double, lon: Double){
         if (this.lat != lat || this.lon != lon ) {
