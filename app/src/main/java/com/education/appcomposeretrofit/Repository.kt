@@ -11,16 +11,12 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class Repository {
-    /**
-     *  Задайте свои координаты населенного пункта
-     *  lat - широта
-     *  lon - долгота
-     */
-    private var lat = 48.192638
-    private var lon = 41.283229
 
-    /*private var lat = 0.00
-    private var lon = 0.00*/
+    /*private var lat = 48.192638
+    private var lon = 41.283229*/
+
+    private var lat = 0.00
+    private var lon = 0.00
 
     fun setLocation(lat: Double, lon: Double){
         if (this.lat != lat || this.lon != lon ) {
@@ -65,7 +61,6 @@ class Repository {
                 response?.let{
                     if (it.isSuccessful)
                         forecastToday.postValue(it.body())
-
                 }
             }
 
