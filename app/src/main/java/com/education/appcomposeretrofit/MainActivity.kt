@@ -259,7 +259,7 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast, stateConfig: Int
         item {
             Column(
                 modifier = Modifier
-                    .padding(end = 32.dp)
+                    .padding(end = 16.dp)
                     .height(150.dp),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -357,7 +357,7 @@ fun RowWPH(index: Int, data: WeatherDay?){
 
         var arrayDirection = arrayOf<Array<Float>>()
         for (i in 0..15) {
-            val array = arrayOf<Float>(i * 22.5f, (i + 1) * 22.5f)
+            val array = arrayOf(i * 22.5f, (i + 1) * 22.5f)
             arrayDirection += array
         }
 
@@ -426,7 +426,7 @@ fun DaysOfWeek(data: List<WeatherDay>?){
             .fillMaxSize()
             .padding(16.dp)
         ) {
-                itemsIndexed(items) { index, item, -> RowOfDay(item)
+                itemsIndexed(items) { index, item -> RowOfDay(item)
                 if (index < items.size-1)
                     Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .1f))
           }
