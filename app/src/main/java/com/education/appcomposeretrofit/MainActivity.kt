@@ -291,7 +291,6 @@ fun HourLazyRow(dataDay: WeatherDay, dataHour: WeatherForecast, stateConfig: Int
                 if (index <= indexLast)
                     ColumnForecastHour(item, index)
             }
-
         }
     }
 }
