@@ -19,7 +19,7 @@ class Repository {
         if (this.lat != lat || this.lon != lon ) {
             this.lat = lat
             this.lon = lon
-            updateForecast()
+            //updateForecast()
         }
     }
 
@@ -128,7 +128,7 @@ class Repository {
         })
     }
 
-    fun updateForecast(){
+    suspend fun updateForecast(){
         if (lat == 0.00 && lon == 0.00)
             return
         _isRefreshing.value = true
